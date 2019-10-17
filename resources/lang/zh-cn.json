@@ -4,5 +4,14 @@
     "Password": "密码",
     "Remember Me": "记住我",
     "Logout": "登出",
-    "Default page": "默认页面"
+    "Default page": "默认页面",
+    "Default title": "默认标题",
+    "No title": "无标题",
+    "Contact": "联系我们",
+    "Success": "成功",
+    "Error": "错误",
+    "Warning": "警告",
+    "Infomation": "消息",
+    "Failed": "验证失败",
+    "DBNav": "数据库导航"
 }
