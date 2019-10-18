@@ -77,8 +77,6 @@
         </div>
 
         @include('shared.footer')
-        
-        @include('shared.control')
     </div>
     
     <!-- Custom Scripts -->

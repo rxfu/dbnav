@@ -7,10 +7,21 @@
                 <i class="fa fa-bars"></i>
             </a>
         </li>
-        
-        <li class="nav-item d-done d-sm-inine-block">
-            <a href="#" class="nav-link">{{ __('Contact') }}</a>
-        </li>
+        @foreach (config('menu.navigation') as $item)
+			<li class="nav-item d-done d-sm-inine-block">
+				<a href="
+                @isset($item['route'])
+                    {{ route($item['route']) }}
+                @else
+                    @isset ($item['url'])
+                        {{ url($item['url']) }}
+                    @else
+                        #
+                    @endisset
+                @endisset
+                " class="nav-link">{{ $item['title'] ?? __('No title') }}</a>
+			</li>
+		@endforeach
     </ul>
 
     <!-- Right navbar links -->
