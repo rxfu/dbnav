@@ -48,7 +48,9 @@
     <div id="wrapper">
         @include('shared.header')
 
-        @include('shared.sidebar')
+        @auth
+            @include('shared.sidebar')
+        @endauth
 
         <!-- Content wrapper -->
         <div class="content-wrapper">

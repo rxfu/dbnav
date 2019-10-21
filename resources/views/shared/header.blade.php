@@ -26,20 +26,29 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item d-done d-sm-inline-block">
-            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                <i class="nav-icon fas fa-sign-out-alt"></i>
-                {{ __('Logout') }}
-            </a>
+        @guest
+            <li class="nav-item d-done d-sm-inline-block">
+                <a href="{{ route('login') }}" class="nav-link">
+                    <i class="nav-icon fas fa-sign-in-alt"></i>
+                    {{ __('Login') }}
+                </a>
+            </li>
+        @else
+            <li class="nav-item d-done d-sm-inline-block">
+                <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    {{ __('Logout') }}
+                </a>
 
-            <form id="logout-form" action="{{ route('logout') }}" method="post" style="display: none">
-                @csrf
-            </form>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
-                <i class="fa fa-th-large"></i>
-            </a>
-        </li>
+                <form id="logout-form" action="{{ route('logout') }}" method="post" style="display: none">
+                    @csrf
+                </form>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+                    <i class="fa fa-th-large"></i>
+                </a>
+            </li>
+        @endguest
     </ul>
 </nav>
