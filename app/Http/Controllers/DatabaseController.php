@@ -16,7 +16,7 @@ class DatabaseController extends BaseController
 
     public function __construct(DatabaseRepository $databaseRepository)
     {
-        $this->service = $databaseRepository;
+        $this->repository = $databaseRepository;
 
         $this->updateRules = $this->storeRules;
     }

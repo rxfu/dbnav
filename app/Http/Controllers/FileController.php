@@ -16,7 +16,7 @@ class FileController extends BaseController
 
     public function __construct(FileRepository $fileRepository)
     {
-        $this->service = $fileRepository;
+        $this->repository = $fileRepository;
 
         $this->updateRules = $this->storeRules;
     }

@@ -16,7 +16,7 @@ class TypeController extends BaseController
 
     public function __construct(TypeRepository $typeRepository)
     {
-        $this->service = $typeRepository;
+        $this->repository = $typeRepository;
 
         $this->updateRules = $this->storeRules;
     }

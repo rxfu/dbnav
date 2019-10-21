@@ -16,7 +16,7 @@ class LanguageController extends BaseController
 
     public function __construct(LanguageRepository $languageRepository)
     {
-        $this->service = $languageRepository;
+        $this->repository = $languageRepository;
 
         $this->updateRules = $this->storeRules;
     }

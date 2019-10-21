@@ -16,7 +16,7 @@ class SubjectController extends BaseController
 
     public function __construct(SubjectRepository $subjectRepository)
     {
-        $this->service = $subjectRepository;
+        $this->repository = $subjectRepository;
 
         $this->updateRules = $this->storeRules;
     }
