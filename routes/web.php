@@ -17,12 +17,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home.index');
-Route::resource('database', 'DatabaseController');
-Route::resource('user', 'UserController');
-Route::resource('subject', 'SubjectController');
-Route::resource('type', 'TypeController');
-Route::resource('language', 'LanguageController');
-Route::resource('file', 'FileController');
-Route::get('password/edit', 'PasswordController@edit')->name('password.edit');
-Route::put('password/change', 'PasswordController@change')->name('password.change');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home.index');
+    Route::resource('database', 'DatabaseController');
+    Route::resource('user', 'UserController');
+    Route::resource('subject', 'SubjectController');
+    Route::resource('type', 'TypeController');
+    Route::resource('language', 'LanguageController');
+    Route::resource('file', 'FileController');
+    Route::get('password/edit', 'PasswordController@edit')->name('password.edit');
+    Route::put('password/change', 'PasswordController@change')->name('password.change');
+});

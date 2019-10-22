@@ -3,7 +3,7 @@
 		<h3 class="card-title">{{ __($model . '.module') }}列表</h3>
 	</div>
 
-	<form id="delete-form" action="{{ route($model . '.delete') }}" method="post">
+	<form id="delete-form" action="#" method="post">
 		@csrf
 		@method('delete')
 		<div class="card-body">
@@ -21,7 +21,7 @@
 								<th scope="col" class="{{ isset($component['responsive']) ? $component['responsive'] : 'desktop' }}">{{ __($model . '.' . $component['field']) }}</th>
 							@endif
 						@endforeach
-						<th scope="col" class="all">操作</th>
+						<th scope="col" class="all">{{ __('Action') }}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -75,9 +75,6 @@
 					</button>
 				</div>
 			    <div class="col text-right">
-					<a href="{{ route($model . '.upload') }}" class="btn btn-secondary">
-						<i class="icon fa fa-user-plus"></i> 导入{{ __($model . '.module') ?: '' }}
-					</a>
 					<a href="{{ route($model . '.create') }}" class="btn btn-success">
 						<i class="icon fa fa-plus"></i> 创建{{ __($model . '.module') ?: '' }}
 					</a>

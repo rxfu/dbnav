@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Notifications\Notifiable;
+use Laracasts\Presenter\PresentableTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use PresentableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +38,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $presenter = 'App\Presenters\UserPresenter';
 
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = bcrypt($value);
