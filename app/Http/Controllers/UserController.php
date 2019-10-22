@@ -20,11 +20,11 @@ class UserController extends BaseController
     public function __construct(UserRepository $userRepository)
     {
         $this->repository = $userRepository;
-
+        
         $this->updateRules = [
-            'username' => 'required|unique:users,username,' . request('id'),
+            'username' => 'required|unique:users,username,' . request($this->module),
             'name' => 'required',
-            'email' => 'nullable|email|unique:users,email,' . request('id'),
+            'email' => 'nullable|email|unique:users,email,' . request($this->module),
         ];
     }
 }

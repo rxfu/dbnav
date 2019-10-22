@@ -14,16 +14,6 @@
 
     <title>@yield('title', __('Default page')) | {{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <!-- jQuery -->
-    <script src="{{ asset('vendor/jquery/jquery.min.js') }}" defer></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}" defer></script>
-    <!-- AdminLTE App -->
-    <script src="{{ asset('js/adminlte.min.js') }}" defer></script>
-    <!-- App -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> --}}
@@ -48,6 +38,15 @@
     
     @yield('page')
     
+    <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('js/adminlte.min.js') }}"></script>
+    <!-- App -->
+    <script src="{{ asset('js/app.js') }}"></script>
     <!-- Custom Scripts -->
     @stack('scripts')
 </body>

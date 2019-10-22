@@ -6,5 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Database extends Model
 {
-    //
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'slug', 'remote_url', 'local_url', 'brief', 'content', 'links', 'status', 'expired_at', 'remark', 'user_id',
+    ];
 }
