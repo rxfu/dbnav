@@ -46,8 +46,12 @@ return [
             'list' => true,
             'create' => true,
             'edit' => true,
+            'type' => 'radio',
             'presenter' => true,
             'responsive' => 'none',
+            'values' => '1:是|0:否',
+            'default' => '0',
+            'required' => true,
         ],
         [
             'field' => 'created_at',
