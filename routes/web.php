@@ -11,20 +11,28 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function() {
+    return redirect()->route('database.search');
+});
+
+Route::get('/admin', function () {
     return redirect()->route('home.index');
 });
 
-Auth::routes();
+Route::get('/search', 'DatabaseController@search')->name('search');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/home', 'HomeController@index')->name('home.index');
-    Route::resource('database', 'DatabaseController');
-    Route::resource('user', 'UserController');
-    Route::resource('subject', 'SubjectController');
-    Route::resource('type', 'TypeController');
-    Route::resource('language', 'LanguageController');
-    Route::resource('file', 'FileController');
-    Route::get('password/edit', 'PasswordController@edit')->name('password.edit');
-    Route::put('password/change', 'PasswordController@change')->name('password.change');
+Route::prefix('admin')->group(function () {
+    Auth::routes();
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/home', 'HomeController@index')->name('home.index');
+        Route::resource('database', 'DatabaseController');
+        Route::resource('user', 'UserController');
+        Route::resource('subject', 'SubjectController');
+        Route::resource('type', 'TypeController');
+        Route::resource('language', 'LanguageController');
+        Route::resource('file', 'FileController');
+        Route::get('password/edit', 'PasswordController@edit')->name('password.edit');
+        Route::put('password/change', 'PasswordController@change')->name('password.change');
+    });
 });

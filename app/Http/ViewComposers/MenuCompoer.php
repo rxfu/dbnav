@@ -16,7 +16,7 @@ class MenuComposer
      */
     public function compose(View $view)
     {
-        $module = request()->segment(1);
+        $module = request()->segment(2);
         $sidebar = config('menu.sidebar');
 
         if (Arr::has($sidebar, $module . '.title')) {

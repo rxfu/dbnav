@@ -2,8 +2,8 @@
 
 @section('content')
 @php
-    $action = request()->segment(2);
-    $model = is_null($action) ? request()->segment(1) : request()->segment(1) . '.' . $action;
+    $action = request()->segment(3);
+    $model = is_null($action) ? request()->segment(2) : request()->segment(2) . '.' . $action;
     $components = config('components.' . $model);
 @endphp
 <div class="row">
