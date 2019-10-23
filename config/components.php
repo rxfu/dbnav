@@ -177,7 +177,7 @@ return [
             'create' => true,
             'edit' => true,
             'presenter' => true,
-            'type' => 'select',
+            'type' => 'radio',
             'values' => '0:试用|1:正式购买|2:开放资源',
             'default' => '0',
             'required' => true,
