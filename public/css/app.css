@@ -1,0 +1,14 @@
+.frontend-page {
+    -ms-flex-align: center;
+    align-items: center;
+    background: #e9ecef;
+    display: -ms-flexbox;
+    display: flex;
+    height: 100vh;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.content-wrapper .main-footer .main-header {
+    margin-left: 0px !important;
+}

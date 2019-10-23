@@ -1,28 +1,35 @@
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand bg-primary navbar-dark border-bottom">
     <!-- Left navbar links -->
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a href="#" class="nav-link" data-widget="pushmenu">
-                <i class="fa fa-bars"></i>
-            </a>
-        </li>
-        @foreach (config('menu.navigation') as $item)
-			<li class="nav-item d-done d-sm-inine-block">
-				<a href="
-                @isset($item['route'])
-                    {{ route($item['route']) }}
-                @else
-                    @isset ($item['url'])
-                        {{ url($item['url']) }}
+    @guest
+        <a href="{{ url('/') }}" class="navbar-brand">{{ config('app.name', 'Laravel') }}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    @else
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-widget="pushmenu">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </li>
+            @foreach (config('menu.navigation') as $item)
+                <li class="nav-item d-done d-sm-inine-block">
+                    <a href="
+                    @isset($item['route'])
+                        {{ route($item['route']) }}
                     @else
-                        #
+                        @isset ($item['url'])
+                            {{ url($item['url']) }}
+                        @else
+                            #
+                        @endisset
                     @endisset
-                @endisset
-                " class="nav-link">{{ $item['title'] ?? __('No title') }}</a>
-			</li>
-		@endforeach
-    </ul>
+                    " class="nav-link">{{ $item['title'] ?? __('No title') }}</a>
+                </li>
+            @endforeach
+        </ul>
+    @endguest
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">

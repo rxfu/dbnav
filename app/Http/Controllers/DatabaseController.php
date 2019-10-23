@@ -20,4 +20,10 @@ class DatabaseController extends BaseController
 
         $this->updateRules = $this->storeRules;
     }
+
+    public function search(Request $request) {
+        $title = '检索';
+
+        return view('search', compact('title'));
+    }
 }

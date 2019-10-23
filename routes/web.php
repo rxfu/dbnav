@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function() {
-    return redirect()->route('database.search');
+    return redirect()->route('search');
 });
 
 Route::get('/admin', function () {
