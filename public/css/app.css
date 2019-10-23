@@ -9,6 +9,6 @@
     justify-content: center;
 }
 
-.content-wrapper .main-footer .main-header {
-    margin-left: 0px !important;
+.content-wrapper, .main-footer, .main-header {
+    margin-left: 0px;
 }
