@@ -142,6 +142,7 @@ return [
             'create' => true,
             'edit' => true,
             'type' => 'textarea',
+            'responsive' => 'none',
         ],
         [
             'field' => 'local_url',
@@ -149,6 +150,7 @@ return [
             'create' => true,
             'edit' => true,
             'type' => 'textarea',
+            'responsive' => 'none',
         ],
         [
             'field' => 'brief',
@@ -156,6 +158,7 @@ return [
             'create' => true,
             'edit' => true,
             'type' => 'textarea',
+            'responsive' => 'none',
         ],
         [
             'field' => 'content',
@@ -163,6 +166,7 @@ return [
             'create' => true,
             'edit' => true,
             'type' => 'textarea',
+            'responsive' => 'none',
         ],
         [
             'field' => 'links',
@@ -170,6 +174,7 @@ return [
             'create' => true,
             'edit' => true,
             'type' => 'textarea',
+            'responsive' => 'none',
         ],
         [
             'field' => 'status',
@@ -195,6 +200,7 @@ return [
             'create' => true,
             'edit' => true,
             'type' => 'textarea',
+            'responsive' => 'none',
         ],
     ],
 ];

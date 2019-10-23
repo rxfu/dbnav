@@ -8,7 +8,7 @@ class DatabasePresenter extends Presenter
 {
     public function status()
     {
-        switch ($this->status) {
+        switch ($this->entity->status) {
             case 0:
                 return '试用';
 
