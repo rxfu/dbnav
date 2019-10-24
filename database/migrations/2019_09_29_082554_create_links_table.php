@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFilesTable extends Migration
+class CreateLinksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('files', function (Blueprint $table) {
+        Schema::create('links', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 64);
-            $table->string('path', 128);
-            $table->string('type', 64)->nullable();
+            $table->string('name', 255);
+            $table->string('url', 255);
+            $table->string('type', 64)->default('link')->comment('link：链接，file：文件');
+            $table->string('file_type', 64)->nullable();
             $table->unsignedBigInteger('database_id');
             $table->timestamps();
 
@@ -32,6 +33,6 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files');
+        Schema::dropIfExists('links');
     }
 }
