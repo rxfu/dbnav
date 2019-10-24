@@ -19,4 +19,8 @@ class Database extends Model
     ];
 
     protected $presenter = 'App\Presenters\DatabasePresenter';
+
+    protected $casts = [
+        'expired_at' => 'datetime',
+    ];
 }

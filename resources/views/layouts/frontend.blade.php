@@ -10,7 +10,7 @@
 
     <!-- Content wrapper -->
     <div class="content-wrapper">
-        
+
         <!-- Main content -->
         <section class="content">
             <div class="content-fluid">
@@ -22,3 +22,11 @@
     @include('shared.footer')
 </div>
 @endsection
+
+@push('styles')
+<style>
+    .content-wrapper, .main-footer, .main-header {
+        margin-left: 0px;
+    }
+</style>
+@endpush

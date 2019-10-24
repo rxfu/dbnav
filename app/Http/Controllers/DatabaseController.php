@@ -34,4 +34,11 @@ class DatabaseController extends BaseController
 
         return view('search', compact('title', 'subjects', 'types', 'languages', 'databases'));
     }
+
+    public function show($id) {
+        $item = Database::findOrFail($id);
+        $title = $item->name;
+
+        return view('pages.show', compact('item', 'title'));
+    }
 }

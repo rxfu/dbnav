@@ -10,16 +10,16 @@ class DatabasePresenter extends Presenter
     {
         switch ($this->entity->status) {
             case 0:
-                return '试用';
+                return __('Trial');
 
             case 1:
-                return '正式使用';
+                return __('Normal');
 
             case 2:
-                return '开放资源';
+                return __('Opening');
 
             default:
-                return '试用';
+                return __('Trial');
         }
     }
 }

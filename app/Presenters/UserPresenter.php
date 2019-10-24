@@ -8,6 +8,6 @@ class UserPresenter extends Presenter
 {
     public function isAdmin()
     {
-        return $this->is_admin ? '是' : '否';
+        return $this->is_admin ? __('Yes') : __('No');
     }
 }

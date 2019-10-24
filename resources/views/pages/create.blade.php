@@ -2,7 +2,7 @@
 
 @section('content')
 @php
-	$model = request()->segment(1);
+	$model = request()->segment(2);
 	$components = config('components.' . $model);
 @endphp
 <div class="row justify-content-sm-center">

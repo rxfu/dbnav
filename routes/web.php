@@ -20,13 +20,14 @@ Route::get('/admin', function () {
 });
 
 Route::get('/search', 'DatabaseController@search')->name('search');
+Route::get('/{database}', 'DatabaseController@show')->name('show');
 
 Route::prefix('admin')->group(function () {
     Auth::routes();
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/home', 'HomeController@index')->name('home.index');
-        Route::resource('database', 'DatabaseController');
+        Route::resource('database', 'DatabaseController')->except('show');
         Route::resource('user', 'UserController');
         Route::resource('subject', 'SubjectController');
         Route::resource('type', 'TypeController');
