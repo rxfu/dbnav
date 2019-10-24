@@ -25,6 +25,10 @@ class DatabaseController extends BaseController
         $this->updateRules = $this->storeRules;
     }
 
+    public function create() {
+        return view('database.create');
+    }
+
     public function search(Request $request) {
         $title = '检索';
         $subjects = Subject::all();
@@ -32,13 +36,13 @@ class DatabaseController extends BaseController
         $languages = Language::all();
         $databases = Database::orderBy('created_at', 'desc')->get();
 
-        return view('search', compact('title', 'subjects', 'types', 'languages', 'databases'));
+        return view('database.search', compact('title', 'subjects', 'types', 'languages', 'databases'));
     }
 
     public function show($id) {
         $item = Database::findOrFail($id);
         $title = $item->name;
 
-        return view('pages.show', compact('item', 'title'));
+        return view('database.show', compact('item', 'title'));
     }
 }
