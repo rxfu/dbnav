@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\Type;
 use App\Models\Subject;
 use App\Models\Database;
@@ -53,8 +54,11 @@ class DatabaseController extends BaseController
            'user_id' => Auth::id(),
         ];
         $database = $this->repository->store($item);
+        $database->subjects()->sync($request->input('subjects'));
+        $database->types()->sync($request->input('types'));
+        $database->languages()->sync($request->input('languages'));
 
-        return view('database.index')->withSuccess('创建' . __('database.module') . '成功');
+        return redirect()->route('database.index')->withSuccess('创建' . __('database.module') . '成功');
     }
 
     public function search(Request $request) {

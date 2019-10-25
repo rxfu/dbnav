@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\FileRepository;
+use App\Repositories\LinkRepository;
 use App\Http\Controllers\BaseController;
 
-class FileController extends BaseController
+class LinkController extends BaseController
 {
-    protected $module = 'file';
+    protected $module = 'link';
 
     protected $storeRules = [
         'name' => 'required',
     ];
 
-    public function __construct(FileRepository $fileRepository)
+    public function __construct(LinkRepository $linkRepository)
     {
-        $this->repository = $fileRepository;
+        $this->repository = $linkRepository;
 
         $this->updateRules = $this->storeRules;
     }

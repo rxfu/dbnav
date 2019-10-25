@@ -80,7 +80,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="subject" class="col-sm-3 col-form-label">{{ __('database.subject') }}</label>
+						<label for="subject" class="col-sm-3 col-form-label pt-0">{{ __('database.subject') }}</label>
 						<div class="col-md-9">
 							@foreach ($subjects as $subject)
 								<div class="form-check form-check-inline">
@@ -96,7 +96,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="type" class="col-sm-3 col-form-label">{{ __('database.type') }}</label>
+						<label for="type" class="col-sm-3 col-form-label pt-0">{{ __('database.type') }}</label>
 						<div class="col-md-9">
 							@foreach ($types as $type)
 								<div class="form-check form-check-inline">
@@ -112,7 +112,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="language" class="col-sm-3 col-form-label">{{ __('database.language') }}</label>
+						<label for="language" class="col-sm-3 col-form-label pt-0">{{ __('database.language') }}</label>
 						<div class="col-md-9">
 							@foreach ($languages as $language)
 								<div class="form-check form-check-inline">
@@ -128,7 +128,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="status" class="col-sm-3 col-form-label">{{ __('database.status') }}</label>
+						<label for="status" class="col-sm-3 col-form-label pt-0">{{ __('database.status') }}</label>
 						<div class="col-md-9">
 							<div class="form-check form-check-inline">
 								<input type="radio" name="status" id="trial" class="form-check-input @error('status') is_invalid @enderror" value="0" checked>
@@ -149,12 +149,15 @@
 							@enderror
 						</div>
 					</div>
-					<div class="form-group">
-						<div class="input-group date datetimepicker" id="expired_at" data-target-input="nearest">
-							<input type="text" name="expired_at" class="form-control datetimepicker-input @error('expired_at') is_invalid @enderror" placeholder="{{ __('database.expired_at') }}" value="{{ old('expired_at') }}" data-target="#expired_at">
-							<div class="input-group-append" data-target="#expired_at" data-toggle="datetimepicker">
-								<div class="input-group-text">
-									<i class="fa fa-calendar"></i>
+					<div class="form-group row">
+						<label for="expired_at" class="col-sm-3 col-form-label">{{ __('database.expired_at') }}</label>
+						<div class="col-md-9">
+							<div class="input-group date datetimepicker" id="expired_at" data-target-input="nearest">
+								<input type="text" name="expired_at" class="form-control datetimepicker-input @error('expired_at') is_invalid @enderror" placeholder="{{ __('database.expired_at') }}" value="{{ old('expired_at') }}" data-target="#expired_at">
+								<div class="input-group-append" data-target="#expired_at" data-toggle="datetimepicker">
+									<div class="input-group-text">
+										<i class="fa fa-calendar"></i>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -218,6 +221,8 @@
 @endpush
 
 @push('scripts')
+<!-- Convert Chinese to Pinyin -->
+<script src="{{ asset('js/pinyin.js') }}"></script>
 <!-- DateTimePicker -->
 <script src="{{ asset('vendor/moment/moment-with-locales.min.js') }}"></script>
 <script src="{{ asset('vendor/datetimepicker/js/tempusdominus-bootstrap-4.min.js') }}"></script>
@@ -232,6 +237,11 @@ $(function() {
     		down: 'fas fa-arrow-down'
 		},
 		format: 'L'
+	});
+
+	// 汉字转换成拼音
+	$('#name').blur(function () {
+		$('#slug').val(pinyin.getFullChars($(this).val()));
 	});
 });
 </script>
