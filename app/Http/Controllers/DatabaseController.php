@@ -33,6 +33,30 @@ class DatabaseController extends BaseController
         return view('database.create', compact('subjects', 'types', 'languages'));
     }
 
+    public function store(Request $request) {
+        $rules = [
+            'name' => 'required',
+            'slug' => 'required',
+        ];
+        $this->validate($request, $rules);
+
+        $item = [
+           'name' => $request->input('name'),
+           'slug' => $request->input('slug'),
+           'remote_url' => str_replace(PHP_EOL, '|', $request->input('remote_url')),
+           'local_url' => str_replace(PHP_EOL, '|', $request->input('local_url')),
+           'brief' => $request->input('brief'),
+           'content' => $request->input('content'),
+           'status' => $request->input('status'),
+           'expired_at' => $request->input('expired_at'),
+           'remark' => $request->input('remark'),
+           'user_id' => Auth::id(),
+        ];
+        $database = $this->repository->store($item);
+
+        return view('database.index')->withSuccess('创建' . __('database.module') . '成功');
+    }
+
     public function search(Request $request) {
         $title = '检索';
         $subjects = Subject::all();
