@@ -54,9 +54,9 @@ abstract class BaseController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function destroy(Request $request, $id)
     {
-        $this->repository->delete($request->input('items'));
+        $this->repository->delete($id);
 
         return redirect()->route($this->module . '.index')->withSuccess('删除' . trans($this->module . '.module') . '成功');
     }
