@@ -23,20 +23,63 @@
 								<h1 class="text-capitalize">{{ $item->name }}</h1>
 							</header>
 							<section>
-								{{ $item->present()->status }} | {{ optional($item->type)->name }} | {{ optional($item->subject)->name }} | {{ optional($item->language)->name }}
+								{{ $item->present()->status }}
+								@if ($item->types->count())
+									|
+									@foreach ($item->types as $type)
+										@php
+											$types[] = $type->name
+										@endphp
+									@endforeach
+									{{ implode('、', $types) }}
+								@endif
+								@if ($item->subjects->count())
+									|
+									@foreach ($item->subjects as $subject)
+										@php
+											$subjects[] = $subject->name
+										@endphp
+									@endforeach
+									{{ implode('、', $subjects) }}
+								@endif
+								@if ($item->languages->count())
+									|
+									@foreach ($item->languages as $language)
+										@php
+											$languages[] = $language->name
+										@endphp
+									@endforeach
+									{{ implode('、', $languages) }}
+								@endif
 							</section>
-							<section>
-								<p>试用截止日期：{{ $item->expired_at->format('Y年m月d日') }}</p>
-							</section>
-							<section>
-								<h3>访问地址</h3>
-								<p>
-									</p><a href="{{ $item->remote_url }}">请点击此处访问远程包库</a>
-								</p>
-								<p>
-									<a href="{{ $item->local_url }}">请点击此处访问本地镜像</a>
-								</p>
-							</section>
+							
+							@if ($item->status === 0 && !empty($item->expired_at))
+								<section>
+									<p>试用截止日期：{{ $item->expired_at->format('Y年m月d日') }}</p>
+								</section>
+							@endif
+							
+							@if (!empty($item->remote_url) || !empty($item->local_url))
+								<section>
+									<h3>访问地址</h3>
+									@unless (empty($item->remote_url))
+										<p>
+											远程包库：
+											@foreach (explode('|', $item->remote_url) as $url)
+												<a href="{{ $url }}" title="{{ __('Link') . $loop->iteration }}" target="_blank">{{ __('Link') . $loop->iteration }}</a>
+											@endforeach
+										</p>
+									@endunless
+									@unless (empty($item->local_url))
+										<p>
+											本地镜像：
+											@foreach (explode('|', $item->local_url) as $url)
+												<a href="{{ $url }}" title="{{ __('Link') . $loop->iteration }}" target="_blank">{{ __('Link') . $loop->iteration }}</a>
+											@endforeach
+										</p>
+									@endunless
+								</section>
+							@endif
 							<section>
 								<h3>数据库介绍</h3>
 								<p>{{ $item->content }}</p>

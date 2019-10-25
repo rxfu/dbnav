@@ -93,11 +93,30 @@
                         </thead>
                         <tbody>
                             @foreach ($databases as $database)
-                                <td>
-                                    <a href="{{ route('show', $database) }}" title="{{ $database->name }}">{{ $database->name }}</a>
-                                </td>
-                                <td>{{ $database->brief }}</td>
-                                <td>{{ $database->remote_url }}</td>
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('show', $database) }}" title="{{ $database->name }}">{{ $database->name }}</a>
+                                    </td>
+                                    <td>{{ $database->brief }}</td>
+                                    <td>
+                                        @unless (empty($database->remote_url))
+                                            <div>
+                                                远程包库：
+                                                @foreach (explode('|', $database->remote_url) as $url)
+                                                    <a href="{{ $url }}" title="{{ __('Link') . $loop->iteration }}" target="_blank">{{ __('Link') . $loop->iteration }}</a>
+                                                @endforeach
+                                            </div>
+                                        @endunless
+                                        @unless (empty($database->local_url))
+                                            <div>
+                                                本地镜像：
+                                                @foreach (explode('|', $database->local_url) as $url)
+                                                    <a href="{{ $url }}" title="{{ __('Link') . $loop->iteration }}" target="_blank">{{ __('Link') . $loop->iteration }}</a>
+                                                @endforeach
+                                            </div>
+                                        @endunless
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
