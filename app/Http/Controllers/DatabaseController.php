@@ -26,7 +26,11 @@ class DatabaseController extends BaseController
     }
 
     public function create() {
-        return view('database.create');
+        $subjects = Subject::all();
+        $types = Type::all();
+        $languages = Language::all();
+
+        return view('database.create', compact('subjects', 'types', 'languages'));
     }
 
     public function search(Request $request) {
