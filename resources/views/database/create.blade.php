@@ -170,12 +170,29 @@
 					<div class="form-group row">
 						<label for="link" class="col-sm-3 col-form-label">{{ __('database.link') }}</label>
 						<div class="col-md-9">
-							<input type="file" name="link" id="link" class="form-control-file @error('link') is_invalid @enderror" value="{{ old('link') }}">
-							@error('link')
-								<div class="invalid-feedback" role="alert">
-									<strong>{{ $message }}</strong>
+							<div class="row">
+								<div class="col-sm-2">
+									<select id="link_type" name="link_type" class="form-control">
+										<option value="link" selected>{{ __('Link') }}</option>
+										<option value="file">{{ __('File') }}</option>
+									</select>
 								</div>
-							@enderror
+								<div class="col">
+									<input type="text" name="link_name" id="link_name" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name') }}">
+									@error('link_name')
+										<div class="invalid-feedback" role="alert">
+											<strong>{{ $message }}</strong>
+										</div>
+									@enderror
+								</div>
+								<div class="col" id="link_content">
+									<input type="text" name="link_url" id="link_url" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">
+								</div>
+								<div class="col-sm-2 pt-2">
+									<a href="#" title="{{ __('Add') }}" class="text-success js-add"><i class="fa fa-plus"></i></a>
+									<a href="#" title="{{ __('Remove') }}" class="text-danger js-remove"><i class="fa fa-minus"></i></a>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -242,6 +259,11 @@ $(function() {
 	// 汉字转换成拼音
 	$('#name').blur(function () {
 		$('#slug').val(pinyin.getFullChars($(this).val()));
+	});
+
+	$('#link_type').on('change', function() {
+		$('#link_content').empty();
+		$('#link_content').html('<input type="file" name="link_file" id="link_file" class="form-control-file @error('link_file') is_invalid @enderror" value="{{ old('link_file') }}">');
 	});
 });
 </script>
