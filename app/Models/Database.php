@@ -16,7 +16,7 @@ class Database extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'slug', 'remote_url', 'local_url', 'brief', 'content', 'links', 'status', 'expired_at', 'remark', 'user_id',
+        'name', 'slug', 'remote_url', 'local_url', 'brief', 'content', 'status', 'expired_at', 'remark', 'user_id', 'order', 'top',
     ];
 
     protected $presenter = 'App\Presenters\DatabasePresenter';

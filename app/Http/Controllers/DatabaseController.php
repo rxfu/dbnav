@@ -101,12 +101,23 @@ class DatabaseController extends BaseController
 
     public function search(Request $request) {
         $title = '检索';
+        $limit = 10;
+
         $subjects = Subject::all();
         $types = Type::all();
         $languages = Language::all();
-        $databases = Database::orderBy('order', 'desc')
-        ->orderBy('created_at', 'desc')
-        ->get();
+
+        if ($request->has('keyword')) {
+            $keyword = $request->input('keyword');
+
+            if (is_null($keyword)) {
+                $databases = $this->repository->getAllByPage($limit);
+            } else {
+                $databases = $this->repository->getDatabasesByPage($keyword, $limit);
+            }
+        } else {
+            $databases = $this->repository->getAllByPage($limit);
+        }
 
         return view('database.search', compact('title', 'subjects', 'types', 'languages', 'databases'));
     }

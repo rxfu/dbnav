@@ -25,6 +25,7 @@ class CreateDatabasesTable extends Migration
             $table->timestamp('expired_at')->nullable();
             $table->text('remark')->nullable();
             $table->integer('order')->default(0);
+            $table->boolean('top')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
