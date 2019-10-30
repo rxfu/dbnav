@@ -116,10 +116,11 @@ class DatabaseController extends BaseController
                 $databases = $this->repository->getDatabasesByPage($keyword, $limit);
             }
         } else {
+            $keyword = null;
             $databases = $this->repository->getAllByPage($limit);
         }
-
-        return view('database.search', compact('title', 'subjects', 'types', 'languages', 'databases'));
+        
+        return view('database.search', compact('title', 'subjects', 'types', 'languages', 'databases', 'keyword'));
     }
 
     public function show($id) {

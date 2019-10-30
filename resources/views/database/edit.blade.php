@@ -201,6 +201,24 @@
 							@enderror
 						</div>
 					</div>
+					<div class="form-group row">
+						<label for="top" class="col-sm-3 col-form-label">{{ __('database.top') }}</label>
+						<div class="col-md-9">
+							<div class="form-check form-check-inline">
+								<input type="radio" name="top" id="no" class="form-check-input @error('top') is_invalid @enderror" value="0" {{ 0 === $item->top ? 'checked' : ''}}>
+								<label class="form-check-label" for="no">{{ __('No') }}</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input type="radio" name="top" id="yes" class="form-check-input @error('top') is_invalid @enderror" value="1" {{ 1 === $item->top ? 'checked' : ''}}>
+								<label class="form-check-label" for="yes">{{ __('Yes') }}</label>
+							</div>
+							@error('top')
+								<div class="invalid-feedback" role="alert">
+									<strong>{{ $message }}</strong>
+								</div>
+							@enderror
+						</div>
+					</div>
 				</div>
 
 				<div class="card-footer">
