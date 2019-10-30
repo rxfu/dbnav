@@ -8,6 +8,7 @@ use Laracasts\Presenter\PresentableTrait;
 
 class Database extends Model
 {
+    use softDeletes;
     use PresentableTrait;
 
     /**

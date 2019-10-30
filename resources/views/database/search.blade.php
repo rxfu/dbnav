@@ -2,20 +2,20 @@
 
 @section('content')
 <div class="container">
-    <form action="{{ route('database.search') }}" method="get">
+    <form action="{{ route('search') }}" method="get">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="input-group my-3">
                     <input type="text" name="keyword" id="keyword" class="form-control form-control-lg" placeholder="数据库检索"" aria-label="数据库检索"" aria-describedby="btnSearch">
                     <div class="input-group-append">
-                        <button class="btn btn-primary btn-lg" type="submit" name="search" id="search">{{ __('Search') }}</button>
+                        <button class="btn btn-primary btn-lg" type="submit" id="search">{{ __('Search') }}</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <dl class="row">

@@ -27,6 +27,7 @@ class CreateDatabasesTable extends Migration
             $table->integer('order')->default(0);
             $table->boolean('top')->default(0);
             $table->unsignedBigInteger('user_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
