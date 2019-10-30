@@ -71,7 +71,7 @@
 					<div class="form-group row">
 						<label for="content" class="col-sm-3 col-form-label">{{ __('database.content') }}</label>
 						<div class="col-md-9">
-							<textarea name="content" id="content" rows="5" class="form-control @error('content') is_invalid @enderror" placeholder="{{ __('content') }}">{{ old('content') }}</textarea>
+							<textarea name="content" id="content" rows="10" class="form-control @error('content') is_invalid @enderror" placeholder="{{ __('content') }}">{{ old('content') }}</textarea>
 							@error('content')
 								<div class="invalid-feedback" role="alert">
 									<strong>{{ $message }}</strong>

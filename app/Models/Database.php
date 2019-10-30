@@ -5,10 +5,11 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Database extends Model
 {
-    use softDeletes;
+    use SoftDeletes;
     use PresentableTrait;
 
     /**

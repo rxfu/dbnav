@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="input-group my-3">
-                    <input type="text" name="keyword" id="keyword" class="form-control form-control-lg" placeholder="数据库检索"" aria-label="数据库检索"" aria-describedby="btnSearch">
+                    <input type="text" name="keyword" id="keyword" class="form-control form-control-lg" placeholder="数据库检索"" aria-label="数据库检索"" aria-describedby="btnSearch" value="{{ old('keyword', $keyword) }}">
                     <div class="input-group-append">
                         <button class="btn btn-primary btn-lg" type="submit" id="search">{{ __('Search') }}</button>
                     </div>
