@@ -18,7 +18,7 @@ class DatabaseRepository extends Repository
         ->paginate($limit);
     }
 
-    public function getDatabasesByPage($keyword, $limit) {
+    public function getDatabasesByPage($keyword, $subject, $type, $language, $limit) {
         $fields = ['name', 'brief', 'content'];
 
 		$objects = $this->object;
@@ -32,6 +32,9 @@ class DatabaseRepository extends Repository
 			}
 		}
 
-		return $objects->paginate($limit);
+		return $objects->orderBy('top', 'desc')
+        ->orderBy('order', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->paginate($limit);
     }
 }
