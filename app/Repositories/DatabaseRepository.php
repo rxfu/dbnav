@@ -11,30 +11,66 @@ class DatabaseRepository extends Repository
         $this->object = $database;
     }
 
-    public function getAllByPage($limit) {
+    public function getAllByPage($limit)
+    {
         return $this->object->orderBy('top', 'desc')
-        ->orderBy('order', 'desc')
-        ->orderBy('created_at', 'desc')
-        ->paginate($limit);
+            ->orderBy('order', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->paginate($limit);
     }
 
-    public function getDatabasesByPage($keyword, $subject, $type, $language, $limit) {
+    public function getDatabasesByPage($limit = 10, $keyword = null, $letters = null, $subject = null, $type = null, $language = null)
+    {
         $fields = ['name', 'brief', 'content'];
+        $objects = $this->object;
 
-		$objects = $this->object;
-		foreach ($fields as $field) {
-			foreach (($keywords = explode(' ', $keyword)) as $value) {
-				if ($value === reset($keywords)) {
-					$objects = $objects->orWhere($field, 'like', '%' . $value . '%');
-				} else {
-					$objects = $objects->where($field, 'like', '%' . $value . '%');
-				}
-			}
-		}
+        if (!is_null($keyword)) {
+            foreach ($fields as $field) {
+                foreach (($keywords = explode(' ', $keyword)) as $value) {
+                    if ($value === reset($keywords)) {
+                        $objects = $objects->orWhere($field, 'LIKE', '%' . $value . '%');
+                    } else {
+                        $objects = $objects->where($field, 'LIKE', '%' . $value . '%');
+                    }
+                }
+            }
+        }
 
-		return $objects->orderBy('top', 'desc')
-        ->orderBy('order', 'desc')
-        ->orderBy('created_at', 'desc')
-        ->paginate($limit);
+        if (!is_null($letters)) {
+            $letters = is_array($letters) ? $letters : array($letters);
+
+            foreach ($letters as $letter) {
+                $objects = $objects->orWhere('slug', 'LIKE', $letter . '%');
+            }
+        }
+
+        if (!is_null($subject)) {
+            $subject = is_array($subject) ? $subject : array($subject);
+
+            $objects = $objects->whereHas('subjects', function ($q) use ($subject) {
+                $q->whereIn('subject_id', $subject);
+            });
+        }
+
+        if (!is_null($type)) {
+            $type = is_array($type) ? $type : array($type);
+
+            $objects = $objects->whereHas('types', function ($q) use ($type) {
+                $q->whereIn('type_id', $type);
+            });
+        }
+
+        if (!is_null($language)) {
+            $language = is_array($language) ? $language : array($language);
+
+            $objects = $objects->whereHas('languages', function ($q) use ($language) {
+                $q->whereIn('language_id', $language);
+            });
+        }
+
+        return $objects->orderBy('top', 'desc')
+            ->orderBy('order', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->paginate($limit);
     }
 }

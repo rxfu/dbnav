@@ -107,20 +107,15 @@ class DatabaseController extends BaseController
         $types = Type::all();
         $languages = Language::all();
 
-        if ($request->has('keyword')) {
-            $keyword = $request->input('keyword');
+        $keyword = $request->has('keyword') ? $request->input('keyword') : null;
+        $letters = $request->has('letters') ? $request->input('letters') : null;
+        $subject = $request->has('subjects') ? $request->input('subjects') : null;
+        $type = $request->has('types') ? $request->input('types') : null;
+        $language = $request->has('languages') ? $request->input('languages') : null;
 
-            if (is_null($keyword)) {
-                $databases = $this->repository->getAllByPage($limit);
-            } else {
-                $databases = $this->repository->getDatabasesByPage($keyword, $limit);
-            }
-        } else {
-            $keyword = null;
-            $databases = $this->repository->getAllByPage($limit);
-        }
-        
-        return view('database.search', compact('title', 'subjects', 'types', 'languages', 'databases', 'keyword'));
+        $databases = $this->repository->getDatabasesByPage($limit, $keyword, $letters, $subject, $type, $language);
+   
+        return view('database.search', compact('title', 'subjects', 'types', 'languages', 'databases', 'keyword', 'letters', 'subject', 'type', 'language'));
     }
 
     public function show($id) {
