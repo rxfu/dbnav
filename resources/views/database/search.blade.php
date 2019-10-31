@@ -21,14 +21,14 @@
                         <dl class="row">
                             <dt class="col-sm-2 text-right">首字母</dt>
                             <dd class="col-sm-10">
-                                @foreach (range('A', 'Z') as $letter)
+                                @foreach (range('A', 'Z') as $item)
                                     <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="letters[]" id="{{ $letter }}" class="form-check-input" value="{{ $letter }}">
-                                        <label class="form-check-label" for="{{ $letter }}">{{ $letter }}</label>
+                                        <input type="checkbox" name="letters[]" id="{{ $item }}" class="form-check-input" value="{{ $item }}" {{ in_array($item, $letters) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="{{ $item }}">{{ $item }}</label>
                                     </div>
                                 @endforeach
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="letters[]" id="number" class="form-check-input" value="number">
+                                    <input type="checkbox" name="letters[]" id="number" class="form-check-input" value="number" {{ in_array('number', $letters) ? 'checked' : ''}}>
                                     <label class="form-check-label" for="number">0~9</label>
                                 </div>
                             </dd>
@@ -36,10 +36,10 @@
                         <dl class="row">
                             <dt class="col-sm-2 text-right">学科</dt>
                             <dd class="col-sm-10">
-                                @foreach ($subjects as $subject)
+                                @foreach ($subjects as $item)
                                     <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="subjects[]" id="subject-{{ $subject->id }}" class="form-check-input" value="{{ $subject->id }}">
-                                        <label class="form-check-label" for="subject-{{ $subject->id }}">{{ $subject->name }}</label>
+                                        <input type="checkbox" name="subjects[]" id="subject-{{ $item->id }}" class="form-check-input" value="{{ $item->id }}" {{ in_array($item->id, $subject) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="subject-{{ $item->id }}">{{ $item->name }}</label>
                                     </div>
                                 @endforeach
                             </dd>
@@ -47,10 +47,10 @@
                         <dl class="row">
                             <dt class="col-sm-2 text-right">内容类型</dt>
                             <dd class="col-sm-10">
-                                @foreach ($types as $type)
+                                @foreach ($types as $item)
                                     <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="types[]" id="type-{{ $type->id }}" class="form-check-input" value="{{ $type->id }}">
-                                        <label class="form-check-label" for="type-{{ $type->id }}">{{ $type->name }}</label>
+                                        <input type="checkbox" name="types[]" id="type-{{ $item->id }}" class="form-check-input" value="{{ $item->id }}" {{ in_array($item->id, $type) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="type-{{ $item->id }}">{{ $item->name }}</label>
                                     </div>
                                 @endforeach
                             </dd>
@@ -58,10 +58,10 @@
                         <dl class="row">
                             <dt class="col-sm-2 text-right">语种</dt>
                             <dd class="col-sm-10">
-                                @foreach ($languages as $language)
+                                @foreach ($languages as $item)
                                     <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="languages[]" id="language-{{ $language->id }}" class="form-check-input" value="{{ $language->id }}">
-                                        <label class="form-check-label" for="language-{{ $language->id }}">{{ $language->name }}</label>
+                                        <input type="checkbox" name="languages[]" id="language-{{ $item->id }}" class="form-check-input" value="{{ $item->id }}" {{ in_array($item->id, $language) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="language-{{ $item->id }}">{{ $item->name }}</label>
                                     </div>
                                 @endforeach
                             </dd>
@@ -70,15 +70,15 @@
                             <dt class="col-sm-2 text-right">状态</dt>
                             <dd class="col-sm-10">
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="statuses[]" id="trial" class="form-check-input" value="0">
+                                    <input type="checkbox" name="statuses[]" id="trial" class="form-check-input" value="0" {{ in_array(0, $status) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="trial">{{ __('Trial') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="statuses[]" id="normal" class="form-check-input" value="1">
+                                    <input type="checkbox" name="statuses[]" id="normal" class="form-check-input" value="1" {{ in_array(1, $status) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="normal">{{ __('Normal') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="statuses[]" id="open" class="form-check-input" value="2">
+                                    <input type="checkbox" name="statuses[]" id="open" class="form-check-input" value="2" {{ in_array(2, $status) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="open">{{ __('Opening') }}</label>
                                 </div>
                             </dd>

@@ -112,10 +112,11 @@ class DatabaseController extends BaseController
         $subject = $request->has('subjects') ? $request->input('subjects') : null;
         $type = $request->has('types') ? $request->input('types') : null;
         $language = $request->has('languages') ? $request->input('languages') : null;
+        $status = $request->has('statuses') ? $request->input('statuses') : null;
 
-        $databases = $this->repository->getDatabasesByPage($limit, $keyword, $letters, $subject, $type, $language);
+        $databases = $this->repository->getDatabasesByPage($limit, $keyword, $letters, $subject, $type, $language, $status);
    
-        return view('database.search', compact('title', 'subjects', 'types', 'languages', 'databases', 'keyword', 'letters', 'subject', 'type', 'language'));
+        return view('database.search', compact('title', 'subjects', 'types', 'languages', 'databases', 'keyword', 'letters', 'subject', 'type', 'language', 'status'));
     }
 
     public function show($id) {

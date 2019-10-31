@@ -19,7 +19,7 @@ class DatabaseRepository extends Repository
             ->paginate($limit);
     }
 
-    public function getDatabasesByPage($limit = 10, $keyword = null, $letters = null, $subject = null, $type = null, $language = null)
+    public function getDatabasesByPage($limit = 10, $keyword = null, $letters = null, $subject = null, $type = null, $language = null, $status = null)
     {
         $fields = ['name', 'brief', 'content'];
         $objects = $this->object;
@@ -40,7 +40,11 @@ class DatabaseRepository extends Repository
             $letters = is_array($letters) ? $letters : array($letters);
 
             foreach ($letters as $letter) {
-                $objects = $objects->orWhere('slug', 'LIKE', $letter . '%');
+                if ('number' === $letter) {
+                    $objects = $objects->orWhere('slug', 'REGEXP', '^[0-9]');
+                } else {
+                    $objects = $objects->orWhere('slug', 'LIKE', $letter . '%');
+                }
             }
         }
 
@@ -66,6 +70,12 @@ class DatabaseRepository extends Repository
             $objects = $objects->whereHas('languages', function ($q) use ($language) {
                 $q->whereIn('language_id', $language);
             });
+        }
+
+        if (!is_null($status)) {
+            $status = is_array($status) ? $status : array($status);
+
+            $objects = $objects->whereIn('status', $status);
         }
 
         return $objects->orderBy('top', 'desc')

@@ -15,11 +15,11 @@
         </div>
 
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
 						<article>
-							<header class="text-center">
+							<header>
 								<h1 class="text-capitalize">{{ $item->name }}</h1>
 							</header>
 							<section>
