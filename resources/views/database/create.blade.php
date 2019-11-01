@@ -172,7 +172,7 @@
 						<div class="col-md-9">
 							<div class="row">
 								<div class="col-sm-2">
-									<select id="link_type" name="link_types[]" class="form-control link-change">
+									<select name="link_types[]" class="form-control link-change">
 										<option value="link" selected>{{ __('Link') }}</option>
 										<option value="file">{{ __('File') }}</option>
 									</select>
@@ -279,7 +279,7 @@ $(function() {
 		var linkContent = $(this).closest('.row').children('.link_content');
 		linkContent.empty();
 
-		if ($('#link_type').val() == 'link') {
+		if ($(this).val() == 'link') {
 			linkContent.html(linkUrl);
 		} else {
 			linkContent.html(linkFile);
@@ -292,7 +292,7 @@ $(function() {
 						<div class="col-md-9">\
 							<div class="row">\
 								<div class="col-sm-2">\
-									<select id="link_type" name="link_types[]" class="form-control link-change">\
+									<select name="link_types[]" class="form-control link-change">\
 										<option value="link" selected>{{ __('Link') }}</option>\
 										<option value="file">{{ __('File') }}</option>\
 									</select>\

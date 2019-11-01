@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Models\Link;
 use App\Models\Type;
 use App\Models\Subject;
 use App\Models\Database;
@@ -69,11 +70,11 @@ class DatabaseController extends BaseController
             } else {
                 $url = $urls[$key];
             }
-            $links[] = [
+            $links[] = new Link([
                 'name' => $names[$key],
                 'url' => $url,
                 'type' => $type,
-            ];
+            ]);
         }
         $database->links()->saveMany($links);
 

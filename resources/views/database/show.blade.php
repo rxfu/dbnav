@@ -80,14 +80,22 @@
 									@endunless
 								</section>
 							@endif
+
 							<section>
 								<h3>数据库介绍</h3>
 								<p>{{ $item->content }}</p>
 							</section>
-							<section>
-								<h3>帮助文档</h3>
-								<p>{{ $item->files }}</p>
-							</section>
+
+							@if ($item->links->count())
+								<section id="help">
+									<h3>帮助文档</h3>
+									<p>
+										@foreach ($item->links as $link)
+											<a href="{{ $link->url }}" title="{{ $link->name }}">{{ $link->name }}</a>
+										@endforeach
+									</p>
+								</section>
+							@endif
 						</article>
                     </div>
                 </div>
@@ -96,3 +104,13 @@
     </form>
 </div>
 @stop
+
+@push('styles')
+<style>
+	#help {
+		position: absolute;
+		top: 6em;
+		right: 5em;
+	}
+</style>
+@endpush
