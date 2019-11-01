@@ -53,10 +53,29 @@ class DatabaseController extends BaseController
            'remark' => $request->input('remark'),
            'user_id' => Auth::id(),
         ];
+
         $database = $this->repository->store($item);
         $database->subjects()->sync($request->input('subjects'));
         $database->types()->sync($request->input('types'));
         $database->languages()->sync($request->input('languages'));
+
+        $links = [];
+        $names = $request->input('link_names');
+        $urls = $request->input('link_urls');
+        foreach ($request->input('link_types') as $key => $type) {
+            if ($request->hasFile('link_urls[' . $key . ']')) {
+                $url = date('YmdHis') . $request->link_urls->extension();
+                $request->link_urls->storeAs('files', $url);
+            } else {
+                $url = $urls[$key];
+            }
+            $links[] = [
+                'name' => $names[$key],
+                'url' => $url,
+                'type' => $type,
+            ];
+        }
+        $database->links()->saveMany($links);
 
         return redirect()->route('database.index')->withSuccess('创建' . __('database.module') . '成功');
     }
