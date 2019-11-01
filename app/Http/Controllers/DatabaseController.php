@@ -115,7 +115,7 @@ class DatabaseController extends BaseController
         $status = $request->has('statuses') ? $request->input('statuses') : null;
 
         $databases = $this->repository->getDatabasesByPage($limit, $keyword, $letters, $subject, $type, $language, $status);
-   
+  
         return view('database.search', compact('title', 'subjects', 'types', 'languages', 'databases', 'keyword', 'letters', 'subject', 'type', 'language', 'status'));
     }
 
