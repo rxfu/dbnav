@@ -167,30 +167,24 @@
 							</div>
 						@enderror
 					</div>
-					<div class="form-group row">
+					<div class="form-group row" id="links">
 						<label for="link" class="col-sm-3 col-form-label">{{ __('database.link') }}</label>
 						<div class="col-md-9">
 							<div class="row">
 								<div class="col-sm-2">
-									<select id="link_type" name="link_type" class="form-control">
+									<select id="link_type" name="link_type" class="form-control link-change">
 										<option value="link" selected>{{ __('Link') }}</option>
 										<option value="file">{{ __('File') }}</option>
 									</select>
 								</div>
 								<div class="col">
-									<input type="text" name="link_name" id="link_name" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name') }}">
-									@error('link_name')
-										<div class="invalid-feedback" role="alert">
-											<strong>{{ $message }}</strong>
-										</div>
-									@enderror
+									<input type="text" name="link_name" id="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name') }}">
 								</div>
-								<div class="col" id="link_content">
-									<input type="text" name="link_url" id="link_url" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">
+								<div class="col link_content">
+									<input type="text" name="link_url" id="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">
 								</div>
 								<div class="col-sm-2 pt-2">
-									<a href="#" title="{{ __('Add') }}" class="text-success js-add"><i class="fa fa-plus"></i></a>
-									<a href="#" title="{{ __('Remove') }}" class="text-danger js-remove"><i class="fa fa-minus"></i></a>
+									<a title="{{ __('Add') }}" class="text-success link-add" style="cursor:pointer"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
@@ -279,10 +273,49 @@ $(function() {
 		$('#slug').val(pinyin.getFullChars($(this).val()));
 	});
 
-	$('#link_type').on('change', function() {
-		$('#link_content').empty();
-		$('#link_content').html('<input type="file" name="link_file" id="link_file" class="form-control-file @error('link_file') is_invalid @enderror" value="{{ old('link_file') }}">');
+	$('body').on('change', '.link-change', function() {
+		var linkUrl = '<input type="text" name="link_urls[]" id="link_url" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">';
+		var linkFile = '<input type="file" name="link_files[]" id="link_file" class="form-control-file @error('link_file') is_invalid @enderror" value="{{ old('link_file') }}">';
+		var linkContent = $(this).closest('.link_content');
+		linkContent.empty();
+
+		if ($('#link_type').val() == 'link') {
+			linkContent.html(linkUrl);
+		} else {
+			linkContent.html(linkFile);
+		}
 	});
+
+	$('body').on('click', '.link-add', function() {
+		var link = '<div class="form-group row">\
+						<label for="link" class="col-sm-3 col-form-label"></label>\
+						<div class="col-md-9">\
+							<div class="row">\
+								<div class="col-sm-2">\
+									<select id="link_type" name="link_type" class="form-control">\
+										<option value="link" selected>{{ __('Link') }}</option>\
+										<option value="file">{{ __('File') }}</option>\
+									</select>\
+								</div>\
+								<div class="col">\
+									<input type="text" name="link_names[]" id="link_name" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name') }}">\
+								</div>\
+								<div class="col link_content">\
+									<input type="text" name="link_urls[]" id="link_url" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">\
+								</div>\
+								<div class="col-sm-2 pt-2">\
+									<a title="{{ __('Add') }}" class="text-success link-add" style="cursor:pointer"><i class="fa fa-plus"></i></a>\
+									<a title="{{ __('Remove') }}" class="text-danger link-remove" style="cursor:pointer"><i class="fa fa-minus"></i></a>\
+								</div>\
+							</div>\
+						</div>\
+					</div>';
+		$(this).closest('.form-group').after(link);
+	});
+
+	$('body').on('click', '.link-remove', function() {
+		$(this).closest('.form-group').remove();
+	})
 });
 </script>
 @endpush
