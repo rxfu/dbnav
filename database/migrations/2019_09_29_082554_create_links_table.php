@@ -20,6 +20,7 @@ class CreateLinksTable extends Migration
             $table->string('type', 64)->default('link')->comment('link：链接，file：文件');
             $table->string('file_type', 64)->nullable();
             $table->unsignedBigInteger('database_id');
+            $table->integer('order')->default(0);
             $table->timestamps();
 
             $table->foreign('database_id')->references('id')->on('databases')->onDelete('cascade')->onUpdate('cascade');

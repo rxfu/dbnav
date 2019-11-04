@@ -55,7 +55,7 @@
 							
 							@if ($item->status === 0 && !empty($item->expired_at))
 								<section>
-									<p>试用截止日期：{{ $item->expired_at->format('Y年m月d日') }}</p>
+									<p class="text-danger">试用截止日期：{{ $item->expired_at->format('Y年m月d日') }}</p>
 								</section>
 							@endif
 							
@@ -89,11 +89,13 @@
 							@if ($item->links->count())
 								<section id="help">
 									<h3>帮助文档</h3>
-									<p>
+									<ul>
 										@foreach ($item->links as $link)
-											<a href="{{ $link->url }}" title="{{ $link->name }}">{{ $link->name }}</a>
+											<li>
+												<a href="{{ $link->url }}" title="{{ $link->name }}">{{ $link->name }}</a>
+											</li>
 										@endforeach
-									</p>
+									</ul>
 								</section>
 							@endif
 						</article>
@@ -104,13 +106,3 @@
     </form>
 </div>
 @stop
-
-@push('styles')
-<style>
-	#help {
-		position: absolute;
-		top: 6em;
-		right: 5em;
-	}
-</style>
-@endpush
