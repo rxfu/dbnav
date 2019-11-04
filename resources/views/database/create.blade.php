@@ -272,16 +272,18 @@ $(function() {
 	$('body').on('change', '.link-change', function() {
 		var linkContent = $(this).closest('.input-group').children('.link-content');
 		var inputName = linkContent.children('input').attr('name');
-		var linkUrl = '<input type="text" name="' + inputName + '" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">';
+		var inputIndex = $(this).index('.link-change');
+		var linkUrl = '<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">';
 		var linkFile = '<div class="custom-file">\
-							<input type="file" name="' + inputName + '" id="' + inputName + '" aria-describedby="' + inputName + '" class="custom-file-input @error('link_url') is_invalid @enderror" value="{{ old('link_url') }}">\
-							<label class="custom-file-label" for="' + inputName + '">{{ __('Choose file') }}</label>\
+							<input type="file" name="link_files[]" id="link_file_' + inputIndex + '" aria-describedby="link_file_' + inputIndex + '" class="custom-file-input @error('link_file') is_invalid @enderror">\
+							<label class="custom-file-label" for="link_file_' + inputIndex + '">{{ __('Choose file') }}</label>\
 						</div>';
+
 		linkContent.empty();
 
 		if ($(this).val() == 'link') {
 			linkContent.html(linkUrl);
-		} else {
+		} else if ($(this).val() == 'file') {
 			linkContent.html(linkFile);
 		}
 	});
