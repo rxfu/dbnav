@@ -27,7 +27,8 @@ class DatabaseController extends BaseController
         $this->updateRules = $this->storeRules;
     }
 
-    public function create() {
+    public function create()
+    {
         $subjects = Subject::all();
         $types = Type::all();
         $languages = Language::all();
@@ -35,7 +36,8 @@ class DatabaseController extends BaseController
         return view('database.create', compact('subjects', 'types', 'languages'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $rules = [
             'name' => 'required',
             'slug' => 'required',
@@ -43,16 +45,16 @@ class DatabaseController extends BaseController
         $this->validate($request, $rules);
 
         $item = [
-           'name' => $request->input('name'),
-           'slug' => $request->input('slug'),
-           'remote_url' => str_replace(PHP_EOL, '|', $request->input('remote_url')),
-           'local_url' => str_replace(PHP_EOL, '|', $request->input('local_url')),
-           'brief' => $request->input('brief'),
-           'content' => $request->input('content'),
-           'status' => $request->input('status'),
-           'expired_at' => $request->input('expired_at'),
-           'remark' => $request->input('remark'),
-           'user_id' => Auth::id(),
+            'name' => $request->input('name'),
+            'slug' => $request->input('slug'),
+            'remote_url' => str_replace(PHP_EOL, '|', $request->input('remote_url')),
+            'local_url' => str_replace(PHP_EOL, '|', $request->input('local_url')),
+            'brief' => $request->input('brief'),
+            'content' => $request->input('content'),
+            'status' => $request->input('status'),
+            'expired_at' => $request->input('expired_at'),
+            'remark' => $request->input('remark'),
+            'user_id' => Auth::id(),
         ];
 
         $database = $this->repository->store($item);
@@ -63,13 +65,19 @@ class DatabaseController extends BaseController
         $links = [];
         $names = $request->input('link_names');
         $urls = $request->input('link_urls');
+        $files = $request->file('link_files');
+        $urlIndex = 0;
+        $fileIndex = 0;
         foreach ($request->input('link_types') as $key => $type) {
-            if ($request->hasFile('link_urls[' . $key . ']')) {
-                $url = date('YmdHis') . $request->link_urls->extension();
-                $request->link_urls->storeAs('files', $url);
-            } else {
-                $url = $urls[$key];
+            if ('link' === $type) {
+                $url = $urls[$urlIndex++];
+            } elseif ('file' === $type) {
+                if ($request->hasFile($files[$fileIndex]) && $files[$fileIndex]->isValid()) {
+                        $url = date('YmdHis') . $files[$fileIndex]->extension();
+                        $files[$fileIndex]->storeAs('files', $url);
+                }
             }
+
             $links[] = new Link([
                 'name' => $names[$key],
                 'url' => $url,
@@ -81,7 +89,8 @@ class DatabaseController extends BaseController
         return redirect()->route('database.index')->withSuccess('创建' . __('database.module') . '成功');
     }
 
-    public function edit($database) {
+    public function edit($database)
+    {
         $subjects = Subject::all();
         $types = Type::all();
         $languages = Language::all();
@@ -90,8 +99,9 @@ class DatabaseController extends BaseController
         return view('database.edit', compact('subjects', 'types', 'languages', 'item'));
     }
 
-    public function update(Request $request, $database) {
-        if ($request->isMethod('put')){
+    public function update(Request $request, $database)
+    {
+        if ($request->isMethod('put')) {
             $rules = [
                 'name' => 'required',
                 'slug' => 'required',
@@ -119,7 +129,8 @@ class DatabaseController extends BaseController
         }
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $title = '检索';
         $limit = 10;
 
@@ -135,11 +146,12 @@ class DatabaseController extends BaseController
         $status = $request->has('statuses') ? $request->input('statuses') : null;
 
         $databases = $this->repository->getDatabasesByPage($limit, $keyword, $letters, $subject, $type, $language, $status);
-  
+
         return view('database.search', compact('title', 'subjects', 'types', 'languages', 'databases', 'keyword', 'letters', 'subject', 'type', 'language', 'status'));
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $item = Database::findOrFail($id);
         $title = $item->name;
 
