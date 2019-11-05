@@ -54,6 +54,7 @@ class DatabaseController extends BaseController
             'status' => $request->input('status'),
             'expired_at' => $request->input('expired_at'),
             'remark' => $request->input('remark'),
+            'top' => $request->input('top'),
             'user_id' => Auth::id(),
         ];
 
@@ -72,9 +73,9 @@ class DatabaseController extends BaseController
             if ('link' === $type) {
                 $url = $urls[$urlIndex++];
             } elseif ('file' === $type) {
-                if ($request->hasFile($files[$fileIndex]) && $files[$fileIndex]->isValid()) {
+                if ($request->hasFile('link_files') && $files[$fileIndex]->isValid()) {
                         $url = date('YmdHis') . $files[$fileIndex]->extension();
-                        $files[$fileIndex]->storeAs('files', $url);
+                        $files[$fileIndex]->store('files', $url);
                 }
             }
 

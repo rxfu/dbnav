@@ -168,15 +168,38 @@
 							</div>
 						@enderror
 					</div>
-					<div class="form-group row">
+					<div class="form-group row" id="links">
 						<label for="link" class="col-sm-3 col-form-label">{{ __('database.link') }}</label>
 						<div class="col-md-9">
-							<input type="file" name="link" id="link" class="form-control-file @error('link') is_invalid @enderror" value="{{ old('link') }}">
-							@error('link')
-								<div class="invalid-feedback" role="alert">
-									<strong>{{ $message }}</strong>
-								</div>
-							@enderror
+							<div class="input-group">
+								@forelse ($item->links as $link)
+									<select name="link_types[]" class="custom-select col-sm-2 link-change">
+										<option value="link" selected>{{ __('Link') }}</option>
+										<option value="file">{{ __('File') }}</option>
+									</select>
+									<input type="text" name="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name', $item->link) }}">
+									<div class="link-content">
+										<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">
+									</div>
+									<div class="input-group-append">
+										<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>
+										<button type="button" title="{{ __('Remove') }}" class="btn btn-danger link-remove"><i class="fa fa-minus"></i></button>
+									</div>
+								@empty
+									<select name="link_types[]" class="custom-select col-sm-2 link-change">
+										<option value="link" selected>{{ __('Link') }}</option>
+										<option value="file">{{ __('File') }}</option>
+									</select>
+									<input type="text" name="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name', $item->link) }}">
+									<div class="link-content">
+										<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">
+									</div>
+									<div class="input-group-append">
+										<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>
+										<button type="button" title="{{ __('Remove') }}" class="btn btn-danger link-remove"><i class="fa fa-minus"></i></button>
+									</div>
+								@endforelse
+							</div>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -202,7 +225,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="top" class="col-sm-3 col-form-label">{{ __('database.top') }}</label>
+						<label for="top" class="col-sm-3 col-form-label pt-0">{{ __('database.top') }}</label>
 						<div class="col-md-9">
 							<div class="form-check form-check-inline">
 								<input type="radio" name="top" id="no" class="form-check-input @error('top') is_invalid @enderror" value="0" {{ 0 === $item->top ? 'checked' : ''}}>
@@ -237,6 +260,14 @@
 @push('styles')
 <!-- DateTimePicker -->
 <link href="{{ asset('vendor/datetimepicker/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet">
+<style>
+.custom-file-input:lang(zh) ~ .custom-file-label::after {
+	content: "浏览";
+}
+.custom-file-label::after {
+	content: "浏览";
+}
+</style>
 @endpush
 
 @push('scripts')
@@ -261,6 +292,57 @@ $(function() {
 	// 汉字转换成拼音
 	$('#name').blur(function () {
 		$('#slug').val(pinyin.getFullChars($(this).val()));
+	});
+	
+	$('body').on('change', '.link-change', function() {
+		var linkContent = $(this).closest('.input-group').children('.link-content');
+		var inputName = linkContent.children('input').attr('name');
+		var inputIndex = $(this).index('.link-change');
+		var linkUrl = '<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">';
+		var linkFile = '<div class="custom-file">\
+							<input type="file" name="link_files[]" id="link_file_' + inputIndex + '" aria-describedby="link_file_' + inputIndex + '" class="custom-file-input @error('link_file') is_invalid @enderror">\
+							<label class="custom-file-label" for="link_file_' + inputIndex + '">{{ __('Choose file') }}</label>\
+						</div>';
+
+		linkContent.empty();
+
+		if ($(this).val() == 'link') {
+			linkContent.html(linkUrl);
+		} else if ($(this).val() == 'file') {
+			linkContent.html(linkFile);
+		}
+	});
+
+	$('body').on('click', '.link-add', function() {
+		var link = '<div class="form-group row">\
+						<label for="link" class="col-sm-3 col-form-label"></label>\
+						<div class="col-md-9">\
+							<div class="input-group">\
+								<select name="link_types[]" class="custom-select col-sm-2 link-change">\
+									<option value="link" selected>{{ __('Link') }}</option>\
+									<option value="file">{{ __('File') }}</option>\
+								</select>\
+								<input type="text" name="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name') }}">\
+								<div class="link-content">\
+									<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">\
+								</div>\
+								<div class="input-group-append">\
+									<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>\
+									<button type="button" title="{{ __('Remove') }}" class="btn btn-danger link-remove"><i class="fa fa-minus"></i></button>\
+								</div>\
+							</div>\
+						</div>\
+					</div>';
+		$(this).closest('.form-group').after(link);
+	});
+
+	$('body').on('click', '.link-remove', function() {
+		$(this).closest('.form-group').remove();
+	});
+
+	$('body').on('change', ':file', function() {
+		var filename = $(this).val().replace('C:\\fakepath\\', " ");
+		$(this).next('.custom-file-label').html(filename);
 	});
 });
 </script>

@@ -181,6 +181,7 @@
 								</div>
 								<div class="input-group-append">
 									<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>
+									<button type="button" title="{{ __('Remove') }}" class="btn btn-danger link-remove"><i class="fa fa-minus"></i></button>
 								</div>
 							</div>
 						</div>
@@ -208,7 +209,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="top" class="col-sm-3 col-form-label">{{ __('database.top') }}</label>
+						<label for="top" class="col-sm-3 col-form-label pt-0">{{ __('database.top') }}</label>
 						<div class="col-md-9">
 							<div class="form-check form-check-inline">
 								<input type="radio" name="top" id="no" class="form-check-input @error('top') is_invalid @enderror" value="0" checked>
@@ -243,6 +244,14 @@
 @push('styles')
 <!-- DateTimePicker -->
 <link href="{{ asset('vendor/datetimepicker/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet">
+<style>
+.custom-file-input:lang(zh) ~ .custom-file-label::after {
+	content: "浏览";
+}
+.custom-file-label::after {
+	content: "浏览";
+}
+</style>
 @endpush
 
 @push('scripts')
@@ -313,7 +322,12 @@ $(function() {
 
 	$('body').on('click', '.link-remove', function() {
 		$(this).closest('.form-group').remove();
-	})
+	});
+
+	$('body').on('change', ':file', function() {
+		var filename = $(this).val().replace('C:\\fakepath\\', " ");
+		$(this).next('.custom-file-label').html(filename);
+	});
 });
 </script>
 @endpush

@@ -92,7 +92,11 @@
 									<ul>
 										@foreach ($item->links as $link)
 											<li>
-												<a href="{{ $link->url }}" title="{{ $link->name }}">{{ $link->name }}</a>
+												@if ($link->type === 'link')
+													<a href="{{ $link->url }}" title="{{ $link->name }}">{{ $link->name }}</a>
+												@else
+													<a href="{{ asset('storage/files/' . $link->url) }}" title="{{ $link->name }}">{{ $link->name }}</a>
+												@endif
 											</li>
 										@endforeach
 									</ul>
