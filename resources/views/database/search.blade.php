@@ -128,9 +128,9 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="text-center">
-                        {{ $databases->appends($_GET)->links() }}
-                    </div>
+                    <div class="justify-content-center">
+                    {{ $databases->appends($_GET)->links() }}
+                </div>
                 </div>
             </div>
         </div>

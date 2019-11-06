@@ -44,11 +44,16 @@ class DatabaseController extends BaseController
         ];
         $this->validate($request, $rules);
 
+        $remote_url = str_replace(PHP_EOL, '|', $request->input('remote_url'));
+        $remote_url = preg_replace("/([ \t]|^)www\./i", "\\1http://www.", $remote_url);
+        $local_url = str_replace(PHP_EOL, '|', $request->input('local_url'));
+        $local_url = preg_replace("/([ \t]|^)www\./i", "\\1http://www.", $local_url);
+
         $item = [
             'name' => $request->input('name'),
             'slug' => $request->input('slug'),
-            'remote_url' => str_replace(PHP_EOL, '|', $request->input('remote_url')),
-            'local_url' => str_replace(PHP_EOL, '|', $request->input('local_url')),
+            'remote_url' => $remote_url,
+            'local_url' => $local_url,
             'brief' => $request->input('brief'),
             'content' => str_replace(PHP_EOL, '<br>', $request->input('content')),
             'status' => $request->input('status'),
@@ -77,7 +82,7 @@ class DatabaseController extends BaseController
                 $link->type = $type;
                 $link->name = $names[$key];
                 if ('link' === $type) {
-                    $link->url = $urls[$urlIndex++];
+                    $link->url = preg_replace("/([ \t]|^)www\./i", "\\1http://www.", $urls[$urlIndex++]);
                 } elseif ('file' === $type) {
                     if ($request->hasFile('link_files') && $files[$fileIndex]->isValid()) {
                         $link->url = date('YmdHis') . '.' . $files[$fileIndex]->extension();
@@ -114,11 +119,16 @@ class DatabaseController extends BaseController
             ];
             $this->validate($request, $rules);
 
+            $remote_url = str_replace(PHP_EOL, '|', $request->input('remote_url'));
+            $remote_url = preg_replace("/([ \t]|^)www\./i", "\\1http://www.", $remote_url);
+            $local_url = str_replace(PHP_EOL, '|', $request->input('local_url'));
+            $local_url = preg_replace("/([ \t]|^)www\./i", "\\1http://www.", $local_url);
+
             $item = [
                 'name' => $request->input('name'),
                 'slug' => $request->input('slug'),
-                'remote_url' => str_replace(PHP_EOL, '|', $request->input('remote_url')),
-                'local_url' => str_replace(PHP_EOL, '|', $request->input('local_url')),
+                'remote_url' => $remote_url,
+                'local_url' => $local_url,
                 'brief' => $request->input('brief'),
                 'content' => $request->input('content'),
                 'status' => $request->input('status'),
@@ -146,7 +156,7 @@ class DatabaseController extends BaseController
                     $link->name = $names[$key];
 
                     if ('link' === $type) {
-                        $link->url = $urls[$urlIndex++];
+                        $link->url = preg_replace("/([ \t]|^)www\./i", "\\1http://www.", $urls[$urlIndex++]);
                     } elseif ('file' === $type) {
                         if ($request->hasFile('link_files') && $files[$fileIndex]->isValid()) {
                             $link->url = date('YmdHis') . '.' . $files[$fileIndex]->extension();
