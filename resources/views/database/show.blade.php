@@ -23,33 +23,33 @@
 								<h1 class="text-capitalize">{{ $item->name }}</h1>
 							</header>
 							<section>
-								{{ $item->present()->status }}
+								<a href="{{ route('database.search', ['statuses[]' => $item->status]) }}" title="{{ $item->present()->status }}">{{ $item->present()->status }}</a>
 								@if ($item->types->count())
 									|
 									@foreach ($item->types as $type)
 										@php
-											$types[] = $type->name
+											$types[] = '<a href="' . route('database.search', ['types[]' => $type->id]) . '" title="' . $type->name . '">' . $type->name . '</a>';
 										@endphp
 									@endforeach
-									{{ implode('、', $types) }}
+									{!! implode('、', $types) !!}
 								@endif
 								@if ($item->subjects->count())
 									|
 									@foreach ($item->subjects as $subject)
 										@php
-											$subjects[] = $subject->name
+											$subjects[] = '<a href="' . route('database.search', ['subjects[]' => $subject->id]) . '" title="' . $subject->name . '">' . $subject->name . '</a>';
 										@endphp
 									@endforeach
-									{{ implode('、', $subjects) }}
+									{!! implode('、', $subjects) !!}
 								@endif
 								@if ($item->languages->count())
 									|
 									@foreach ($item->languages as $language)
 										@php
-											$languages[] = $language->name
+											$languages[] = '<a href="' . route('database.search', ['languages[]' => $language->id]) . '" title="' . $language->name . '">' . $language->name . '</a>';
 										@endphp
 									@endforeach
-									{{ implode('、', $languages) }}
+									{!! implode('、', $languages) !!}
 								@endif
 							</section>
 							

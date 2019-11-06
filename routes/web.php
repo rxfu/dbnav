@@ -12,15 +12,15 @@
 */
 
 Route::get('/', function() {
-    return redirect()->route('search');
+    return redirect()->route('database.search');
 });
 
 Route::get('/admin', function () {
     return redirect()->route('home.index');
 });
 
-Route::get('/search', 'DatabaseController@search')->name('search');
-Route::get('/{database}', 'DatabaseController@show')->name('show');
+Route::get('/search', 'DatabaseController@search')->name('database.search');
+Route::get('/{database}', 'DatabaseController@show')->name('database.show');
 
 Route::prefix('admin')->group(function () {
     Auth::routes();
@@ -32,7 +32,6 @@ Route::prefix('admin')->group(function () {
         Route::resource('subject', 'SubjectController');
         Route::resource('type', 'TypeController');
         Route::resource('language', 'LanguageController');
-        Route::resource('file', 'FileController');
         Route::get('password/edit', 'PasswordController@edit')->name('password.edit');
         Route::put('password/change', 'PasswordController@change')->name('password.change');
     });

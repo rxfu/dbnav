@@ -80,7 +80,7 @@ class DatabaseRepository extends Repository
 
         return $objects->orderBy('top', 'desc')
             ->orderBy('order', 'desc')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('slug', 'asc')
             ->paginate($limit);
     }
 }

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{ route('search') }}" method="get">
+    <form action="{{ route('database.search') }}" method="get">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="input-group my-3">
@@ -87,17 +87,24 @@
 
                     <table id="itemsTable" class="table table-striped datatable">
                         <thead>
-                            <th>数据库名称</th>
-                            <th>数据库简介</th>
+                            <th width="30%">数据库名称</th>
+                            <th width="40%">数据库简介</th>
                             <th>访问地址</th>
+                            <th>状态</th>
                         </thead>
                         <tbody>
                             @foreach ($databases as $database)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('show', $database) }}" title="{{ $database->name }}">{{ $database->name }}</a>
+                                        <a href="{{ route('database.show', $database) }}" title="{{ $database->name }}">{{ $database->name }}</a>
                                     </td>
-                                    <td>{{ $database->brief }}</td>
+                                    <td>
+                                        @empty($database->brief)
+                                            {{ \Illuminate\Support\Str::limit($database->content, 50) }}
+                                        @else
+                                            {{ $database->brief }}
+                                        @endempty
+                                    </td>
                                     <td>
                                         @unless (empty($database->remote_url))
                                             <div>
@@ -116,6 +123,7 @@
                                             </div>
                                         @endunless
                                     </td>
+                                    <td>{{ $database->present()->status }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
