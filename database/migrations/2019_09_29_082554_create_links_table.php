@@ -15,8 +15,8 @@ class CreateLinksTable extends Migration
     {
         Schema::create('links', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 255);
-            $table->string('url', 255);
+            $table->string('name', 255)->nullable();
+            $table->string('url', 255)->nullable();
             $table->string('type', 64)->default('link')->comment('link：链接，file：文件');
             $table->string('file_type', 255)->nullable();
             $table->unsignedBigInteger('database_id');

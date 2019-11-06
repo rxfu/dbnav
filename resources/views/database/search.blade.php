@@ -90,7 +90,7 @@
                             <th width="30%">数据库名称</th>
                             <th width="40%">数据库简介</th>
                             <th>访问地址</th>
-                            <th>状态</th>
+                            <th width="8%">状态</th>
                         </thead>
                         <tbody>
                             @foreach ($databases as $database)
@@ -127,8 +127,10 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                        <tfoot>{{ $databases->appends($_GET)->links() }}</tfoot>
                     </table>
+                    <div class="text-center">
+                        {{ $databases->appends($_GET)->links() }}
+                    </div>
                 </div>
             </div>
         </div>

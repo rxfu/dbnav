@@ -3,7 +3,7 @@
 @section('content')
 <div class="row justify-content-sm-center">
 	<div class="col-sm-8">
-		<div class="card card-success">
+		<div class="card card-info">
 			<div class="card-header">
 				<h3 class="card-title">{{ __('Edit') . ' ' . __('database.module') . ' ' . $item->name }}</h3>
 			</div>
@@ -72,7 +72,7 @@
 					<div class="form-group row">
 						<label for="content" class="col-sm-3 col-form-label">{{ __('database.content') }}</label>
 						<div class="col-md-9">
-							<textarea name="content" id="content" rows="10" class="form-control @error('content') is_invalid @enderror" placeholder="{{ __('content') }}">{{ old('content', $item->content) }}</textarea>
+							<textarea name="content" id="content" rows="10" class="form-control @error('content') is_invalid @enderror" placeholder="{{ __('content') }}">{{ str_replace('<br>', PHP_EOL, old('content', $item->content)) }}</textarea>
 							@error('content')
 								<div class="invalid-feedback" role="alert">
 									<strong>{{ $message }}</strong>
@@ -168,38 +168,54 @@
 							</div>
 						@enderror
 					</div>
-					<div class="form-group row" id="links">
+					<div class="form-group row">
 						<label for="link" class="col-sm-3 col-form-label">{{ __('database.link') }}</label>
 						<div class="col-md-9">
-							<div class="input-group">
-								@forelse ($item->links as $link)
+							@empty($item->links)
+								<div class="input-group">
 									<select name="link_types[]" class="custom-select col-sm-2 link-change">
 										<option value="link" selected>{{ __('Link') }}</option>
 										<option value="file">{{ __('File') }}</option>
 									</select>
-									<input type="text" name="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name', $item->link) }}">
+									<input type="text" name="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name') }}">
 									<div class="link-content">
 										<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">
 									</div>
 									<div class="input-group-append">
 										<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>
-										<button type="button" title="{{ __('Remove') }}" class="btn btn-danger link-remove"><i class="fa fa-minus"></i></button>
 									</div>
-								@empty
-									<select name="link_types[]" class="custom-select col-sm-2 link-change">
-										<option value="link" selected>{{ __('Link') }}</option>
-										<option value="file">{{ __('File') }}</option>
-									</select>
-									<input type="text" name="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name', $item->link) }}">
-									<div class="link-content">
-										<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">
+								</div>
+							@else
+								@foreach($item->links as $link)
+									<div class="input-group">
+										<select name="link_types[]" class="custom-select col-sm-2 link-change">
+											<option value="link" {{ 'link' === $link->type ? 'selected' : '' }}>{{ __('Link') }}</option>
+											<option value="file" {{ 'file' === $link->type ? 'selected' : '' }}>{{ __('File') }}</option>
+										</select>
+										<input type="text" name="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name', $link->name) }}">
+										<div class="link-content">
+											@if ('link' === $link->type)
+												<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url', $link->url) }}">
+											@else
+												<div class="custom-file">
+													<input type="file" name="link_files[]" id="link_file_{{ $loop->index }}" aria-describedby="link_file_{{ $loop->index }}" class="custom-file-input @error('link_file') is_invalid @enderror">
+													<label class="custom-file-label" for="link_file_{{ $loop->index }}">{{ __('Choose file') }}</label>
+												</div>
+												<div class="form-text">
+													<a href="{{ asset('storage/files/' . $link->url) }}">{{ $link->name }}</a>
+												</div>
+											@endif
+											<input type="hidden" name="link_ids[]" value="{{ $link->id }}">
+										</div>
+										<div class="input-group-append">
+											<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>
+											@if ($loop->index > 1)
+												<button type="button" title="{{ __('Remove') }}" class="btn btn-danger link-remove"><i class="fa fa-minus"></i></button>
+											@endif
+										</div>
 									</div>
-									<div class="input-group-append">
-										<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>
-										<button type="button" title="{{ __('Remove') }}" class="btn btn-danger link-remove"><i class="fa fa-minus"></i></button>
-									</div>
-								@endforelse
-							</div>
+								@endforeach
+							@endempty
 						</div>
 					</div>
 					<div class="form-group row">
@@ -314,30 +330,25 @@ $(function() {
 	});
 
 	$('body').on('click', '.link-add', function() {
-		var link = '<div class="form-group row">\
-						<label for="link" class="col-sm-3 col-form-label"></label>\
-						<div class="col-md-9">\
-							<div class="input-group">\
-								<select name="link_types[]" class="custom-select col-sm-2 link-change">\
-									<option value="link" selected>{{ __('Link') }}</option>\
-									<option value="file">{{ __('File') }}</option>\
-								</select>\
-								<input type="text" name="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name') }}">\
-								<div class="link-content">\
-									<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">\
-								</div>\
-								<div class="input-group-append">\
-									<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>\
-									<button type="button" title="{{ __('Remove') }}" class="btn btn-danger link-remove"><i class="fa fa-minus"></i></button>\
-								</div>\
-							</div>\
+		var link = '<div class="input-group mt-3">\
+						<select name="link_types[]" class="custom-select col-sm-2 link-change">\
+							<option value="link" selected>{{ __('Link') }}</option>\
+							<option value="file">{{ __('File') }}</option>\
+						</select>\
+						<input type="text" name="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name') }}">\
+						<div class="link-content">\
+							<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">\
+						</div>\
+						<div class="input-group-append">\
+							<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>\
+							<button type="button" title="{{ __('Remove') }}" class="btn btn-danger link-remove"><i class="fa fa-minus"></i></button>\
 						</div>\
 					</div>';
-		$(this).closest('.form-group').after(link);
+		$(this).closest('.input-group').after(link);
 	});
 
 	$('body').on('click', '.link-remove', function() {
-		$(this).closest('.form-group').remove();
+		$(this).closest('.input-group').remove();
 	});
 
 	$('body').on('change', ':file', function() {

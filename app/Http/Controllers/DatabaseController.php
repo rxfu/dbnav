@@ -70,23 +70,25 @@ class DatabaseController extends BaseController
             $files = $request->file('link_files');
             $urlIndex = 0;
             $fileIndex = 0;
+
             foreach ($request->input('link_types') as $key => $type) {
+                $link = new Link;
+
+                $link->type = $type;
+                $link->name = $names[$key];
                 if ('link' === $type) {
-                    $url = $urls[$urlIndex++];
+                    $link->url = $urls[$urlIndex++];
                 } elseif ('file' === $type) {
                     if ($request->hasFile('link_files') && $files[$fileIndex]->isValid()) {
-                        $url = date('YmdHis') . '.' . $files[$fileIndex]->extension();
-                        $files[$fileIndex]->storeAs('files', $url);
+                        $link->url = date('YmdHis') . '.' . $files[$fileIndex]->extension();
+                        $link->file_type = $files[$fileIndex]->getClientMimeType();
+                        $files[$fileIndex]->storeAs('files', $link->url);
                     }
                 }
 
-                $links[] = new Link([
-                    'name' => $names[$key],
-                    'url' => $url,
-                    'type' => $type,
-                    'file_type' => ('file' === $type ? $files[$fileIndex]->getClientMimeType() : null),
-                ]);
+                $links[] = $link;
             }
+
             $database->links()->saveMany($links);
         }
 
@@ -128,6 +130,40 @@ class DatabaseController extends BaseController
             $database->subjects()->sync($request->input('subjects'));
             $database->types()->sync($request->input('types'));
             $database->languages()->sync($request->input('languages'));
+
+            if ($request->has('link_types')) {
+                $links = [];
+                $names = $request->input('link_names');
+                $urls = $request->input('link_urls');
+                $files = $request->file('link_files');
+                $ids = $request->input('link_ids');
+                $urlIndex = 0;
+                $fileIndex = 0;
+
+                foreach ($request->input('link_types') as $key => $type) {
+                    if ($request->has('link_ids')) {
+                        $link = Link::findOrFail($request->ids[$key]);
+                    } else {
+                        $link = new Link;
+                    }
+
+                    $link->type = $type;
+                    $link->name = $names[$key];
+                    if ('link' === $type) {
+                        $link->url = $urls[$urlIndex++];
+                    } elseif ('file' === $type) {
+                        if ($request->hasFile('link_files') && $files[$fileIndex]->isValid()) {
+                            $link->url = date('YmdHis') . '.' . $files[$fileIndex]->extension();
+                            $link->file_type = $files[$fileIndex]->getClientMimeType();
+                            $files[$fileIndex]->storeAs('files', $link->url);
+                        }
+                    }
+
+                    $links[] = $link;
+                }
+
+                $database->links()->sync($links);
+            }
 
             return redirect()->route('database.index')->withSuccess('更新' . __('database.module') . '成功');
         }
