@@ -18,7 +18,7 @@ class CreateLinksTable extends Migration
             $table->string('name', 255);
             $table->string('url', 255);
             $table->string('type', 64)->default('link')->comment('link：链接，file：文件');
-            $table->string('file_type', 64)->nullable();
+            $table->string('file_type', 255)->nullable();
             $table->unsignedBigInteger('database_id');
             $table->integer('order')->default(0);
             $table->timestamps();
