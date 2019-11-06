@@ -171,21 +171,7 @@
 					<div class="form-group row">
 						<label for="link" class="col-sm-3 col-form-label">{{ __('database.link') }}</label>
 						<div class="col-md-9">
-							@empty($item->links)
-								<div class="input-group">
-									<select name="link_types[]" class="custom-select col-sm-2 link-change">
-										<option value="link" selected>{{ __('Link') }}</option>
-										<option value="file">{{ __('File') }}</option>
-									</select>
-									<input type="text" name="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name') }}">
-									<div class="link-content">
-										<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">
-									</div>
-									<div class="input-group-append">
-										<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>
-									</div>
-								</div>
-							@else
+							@if($item->links->count())
 								@foreach($item->links as $link)
 									<div class="input-group">
 										<select name="link_types[]" class="custom-select col-sm-2 link-change">
@@ -205,16 +191,29 @@
 													<a href="{{ asset('storage/files/' . $link->url) }}">{{ $link->name }}</a>
 												</div>
 											@endif
-											<input type="hidden" name="link_ids[]" value="{{ $link->id }}">
 										</div>
 										<div class="input-group-append">
 											<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>
-											@if ($loop->index > 1)
+											@if ($loop->index > 0)
 												<button type="button" title="{{ __('Remove') }}" class="btn btn-danger link-remove"><i class="fa fa-minus"></i></button>
 											@endif
 										</div>
 									</div>
 								@endforeach
+							@else
+								<div class="input-group">
+									<select name="link_types[]" class="custom-select col-sm-2 link-change">
+										<option value="link" selected>{{ __('Link') }}</option>
+										<option value="file">{{ __('File') }}</option>
+									</select>
+									<input type="text" name="link_names[]" class="form-control @error('link_name') is_invalid @enderror" placeholder="{{ __('Link name') }}" value="{{ old('link_name') }}">
+									<div class="link-content">
+										<input type="text" name="link_urls[]" class="form-control @error('link_url') is_invalid @enderror" placeholder="{{ __('Link url') }}" value="{{ old('link_url') }}">
+									</div>
+									<div class="input-group-append">
+										<button type="button" title="{{ __('Add') }}" class="btn btn-success link-add"><i class="fa fa-plus"></i></button>
+									</div>
+								</div>
 							@endempty
 						</div>
 					</div>

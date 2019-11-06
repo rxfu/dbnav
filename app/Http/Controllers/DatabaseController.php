@@ -141,14 +141,10 @@ class DatabaseController extends BaseController
                 $fileIndex = 0;
 
                 foreach ($request->input('link_types') as $key => $type) {
-                    if ($request->has('link_ids')) {
-                        $link = Link::findOrFail($request->ids[$key]);
-                    } else {
-                        $link = new Link;
-                    }
-
+                    $link = new Link;
                     $link->type = $type;
                     $link->name = $names[$key];
+
                     if ('link' === $type) {
                         $link->url = $urls[$urlIndex++];
                     } elseif ('file' === $type) {
@@ -162,7 +158,8 @@ class DatabaseController extends BaseController
                     $links[] = $link;
                 }
 
-                $database->links()->sync($links);
+                $database->links()->delete();
+                $database->links()->saveMany($links);
             }
 
             return redirect()->route('database.index')->withSuccess('更新' . __('database.module') . '成功');
