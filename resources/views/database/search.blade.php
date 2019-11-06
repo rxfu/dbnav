@@ -100,7 +100,7 @@
                                     </td>
                                     <td>
                                         @empty($database->brief)
-                                            {{ \Illuminate\Support\Str::limit($database->content, 50) }}
+                                            {{ \Illuminate\Support\Str::limit($database->content, 120) }}
                                         @else
                                             {{ $database->brief }}
                                         @endempty

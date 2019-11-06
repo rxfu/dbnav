@@ -83,7 +83,7 @@
 
 							<section>
 								<h3>数据库介绍</h3>
-								<p>{{ $item->content }}</p>
+								<p>{!! $item->content !!}</p>
 							</section>
 
 							@if ($item->links->count())

@@ -50,7 +50,7 @@ class DatabaseController extends BaseController
             'remote_url' => str_replace(PHP_EOL, '|', $request->input('remote_url')),
             'local_url' => str_replace(PHP_EOL, '|', $request->input('local_url')),
             'brief' => $request->input('brief'),
-            'content' => $request->input('content'),
+            'content' => str_replace(PHP_EOL, '<br>', $request->input('content')),
             'status' => $request->input('status'),
             'expired_at' => $request->input('expired_at'),
             'remark' => $request->input('remark'),
@@ -63,29 +63,32 @@ class DatabaseController extends BaseController
         $database->types()->sync($request->input('types'));
         $database->languages()->sync($request->input('languages'));
 
-        $links = [];
-        $names = $request->input('link_names');
-        $urls = $request->input('link_urls');
-        $files = $request->file('link_files');
-        $urlIndex = 0;
-        $fileIndex = 0;
-        foreach ($request->input('link_types') as $key => $type) {
-            if ('link' === $type) {
-                $url = $urls[$urlIndex++];
-            } elseif ('file' === $type) {
-                if ($request->hasFile('link_files') && $files[$fileIndex]->isValid()) {
-                        $url = date('YmdHis') . $files[$fileIndex]->extension();
-                        $files[$fileIndex]->store('files', $url);
+        if ($request->has('link_types')) {
+            $links = [];
+            $names = $request->input('link_names');
+            $urls = $request->input('link_urls');
+            $files = $request->file('link_files');
+            $urlIndex = 0;
+            $fileIndex = 0;
+            foreach ($request->input('link_types') as $key => $type) {
+                if ('link' === $type) {
+                    $url = $urls[$urlIndex++];
+                } elseif ('file' === $type) {
+                    if ($request->hasFile('link_files') && $files[$fileIndex]->isValid()) {
+                        $url = date('YmdHis') . '.' . $files[$fileIndex]->extension();
+                        $files[$fileIndex]->storeAs('files', $url);
+                    }
                 }
-            }
 
-            $links[] = new Link([
-                'name' => $names[$key],
-                'url' => $url,
-                'type' => $type,
-            ]);
+                $links[] = new Link([
+                    'name' => $names[$key],
+                    'url' => $url,
+                    'type' => $type,
+                    'file_type' => ('file' === $type ? $files[$fileIndex]->getClientMimeType() : null),
+                ]);
+            }
+            $database->links()->saveMany($links);
         }
-        $database->links()->saveMany($links);
 
         return redirect()->route('database.index')->withSuccess('创建' . __('database.module') . '成功');
     }
