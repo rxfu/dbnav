@@ -77,21 +77,23 @@ class DatabaseController extends BaseController
             $fileIndex = 0;
 
             foreach ($request->input('link_types') as $key => $type) {
-                $link = new Link;
+                if (!empty($names[$key])) {
+                    $link = new Link;
 
-                $link->type = $type;
-                $link->name = $names[$key];
-                if ('link' === $type) {
-                    $link->url = preg_replace("/([ \t]|^)www\./i", "\\1http://www.", $urls[$urlIndex++]);
-                } elseif ('file' === $type) {
-                    if ($request->hasFile('link_files') && $files[$fileIndex]->isValid()) {
-                        $link->url = date('YmdHis') . '.' . $files[$fileIndex]->extension();
-                        $link->file_type = $files[$fileIndex]->getClientMimeType();
-                        $files[$fileIndex]->storeAs('files', $link->url);
+                    $link->type = $type;
+                    $link->name = $names[$key];
+                    if ('link' === $type) {
+                        $link->url = preg_replace("/([ \t]|^)www\./i", "\\1http://www.", $urls[$urlIndex++]);
+                    } elseif ('file' === $type) {
+                        if ($request->hasFile('link_files') && $files[$fileIndex]->isValid()) {
+                            $link->url = date('YmdHis') . '.' . $files[$fileIndex]->extension();
+                            $link->file_type = $files[$fileIndex]->getClientMimeType();
+                            $files[$fileIndex]->storeAs('files', $link->url);
+                        }
                     }
-                }
 
-                $links[] = $link;
+                    $links[] = $link;
+                }
             }
 
             $database->links()->saveMany($links);
@@ -146,26 +148,27 @@ class DatabaseController extends BaseController
                 $names = $request->input('link_names');
                 $urls = $request->input('link_urls');
                 $files = $request->file('link_files');
-                $ids = $request->input('link_ids');
                 $urlIndex = 0;
                 $fileIndex = 0;
 
                 foreach ($request->input('link_types') as $key => $type) {
-                    $link = new Link;
-                    $link->type = $type;
-                    $link->name = $names[$key];
+                    if (!empty($names[$key])) {
+                        $link = new Link;
+                        $link->type = $type;
+                        $link->name = $names[$key];
 
-                    if ('link' === $type) {
-                        $link->url = preg_replace("/([ \t]|^)www\./i", "\\1http://www.", $urls[$urlIndex++]);
-                    } elseif ('file' === $type) {
-                        if ($request->hasFile('link_files') && $files[$fileIndex]->isValid()) {
-                            $link->url = date('YmdHis') . '.' . $files[$fileIndex]->extension();
-                            $link->file_type = $files[$fileIndex]->getClientMimeType();
-                            $files[$fileIndex]->storeAs('files', $link->url);
+                        if ('link' === $type) {
+                            $link->url = preg_replace("/([ \t]|^)www\./i", "\\1http://www.", $urls[$urlIndex++]);
+                        } elseif ('file' === $type) {
+                            if ($request->hasFile('link_files') && $files[$fileIndex]->isValid()) {
+                                $link->url = date('YmdHis') . '.' . $files[$fileIndex]->extension();
+                                $link->file_type = $files[$fileIndex]->getClientMimeType();
+                                $files[$fileIndex]->storeAs('files', $link->url);
+                            }
                         }
-                    }
 
-                    $links[] = $link;
+                        $links[] = $link;
+                    }
                 }
 
                 $database->links()->delete();
