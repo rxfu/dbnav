@@ -132,7 +132,7 @@ class DatabaseController extends BaseController
                 'remote_url' => $remote_url,
                 'local_url' => $local_url,
                 'brief' => $request->input('brief'),
-                'content' => $request->input('content'),
+                'content' => str_replace(PHP_EOL, '<br>', $request->input('content')),
                 'status' => $request->input('status'),
                 'expired_at' => $request->input('expired_at'),
                 'remark' => $request->input('remark'),
