@@ -57,11 +57,14 @@ class DatabaseController extends BaseController
             'brief' => $request->input('brief'),
             'content' => str_replace(PHP_EOL, '<br>', $request->input('content')),
             'status' => $request->input('status'),
-            'expired_at' => $request->input('expired_at'),
             'remark' => $request->input('remark'),
             'top' => $request->input('top'),
             'user_id' => Auth::id(),
         ];
+
+        if (!is_null($request->input('expired_at'))) {
+            $item['expired_at'] = $request->input('expired_at');
+        }
 
         $database = $this->repository->store($item);
         $database->subjects()->sync($request->input('subjects'));
@@ -134,10 +137,14 @@ class DatabaseController extends BaseController
                 'brief' => $request->input('brief'),
                 'content' => str_replace(PHP_EOL, '<br>', $request->input('content')),
                 'status' => $request->input('status'),
-                'expired_at' => $request->input('expired_at'),
                 'remark' => $request->input('remark'),
                 'user_id' => Auth::id(),
             ];
+
+            if (!is_null($request->input('expired_at'))) {
+                $item['expired_at'] = $request->input('expired_at');
+            }
+            
             $database = $this->repository->update($database, $item);
             $database->subjects()->sync($request->input('subjects'));
             $database->types()->sync($request->input('types'));
