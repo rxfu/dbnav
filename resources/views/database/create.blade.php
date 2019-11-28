@@ -293,7 +293,6 @@ $(function() {
             showClear: true,
             showClose: true
 		}
-		format: 'L'
 	});
 
 	// 汉字转换成拼音
