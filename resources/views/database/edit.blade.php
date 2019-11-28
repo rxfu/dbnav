@@ -313,11 +313,11 @@ $(function() {
     		date: 'far fa-calendar-alt',
     		up: 'fas fa-arrow-up',
     		down: 'fas fa-arrow-down',
-			previous: 'far fa-chevron-left',
-			next: 'far fa-chevron-right',
-			today: 'far fa-calendar-check-o',
-			clear: 'far fa-trash',
-			close: 'far fa-times'
+			previous: 'fas fa-chevron-left',
+			next: 'fas fa-chevron-right',
+			today: 'far fa-calendar-check',
+			clear: 'far fa-trash-alt',
+			close: 'fas fa-times'
 		},
 		format: 'L',
 		buttons: {
