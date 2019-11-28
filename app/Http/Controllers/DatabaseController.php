@@ -20,6 +20,8 @@ class DatabaseController extends BaseController
         'name' => 'required',
     ];
 
+    protected const MAX_DATE = '9999-12-31';
+
     public function __construct(DatabaseRepository $databaseRepository)
     {
         $this->repository = $databaseRepository;
@@ -62,9 +64,7 @@ class DatabaseController extends BaseController
             'user_id' => Auth::id(),
         ];
 
-        if (!is_null($request->input('expired_at'))) {
-            $item['expired_at'] = $request->input('expired_at');
-        }
+        $item['expired_at'] = is_null($request->input('expired_at')) ? self::MAX_DATE : $request->input('expired_at');
 
         $database = $this->repository->store($item);
         $database->subjects()->sync($request->input('subjects'));
@@ -141,9 +141,7 @@ class DatabaseController extends BaseController
                 'user_id' => Auth::id(),
             ];
 
-            if (!is_null($request->input('expired_at'))) {
-                $item['expired_at'] = $request->input('expired_at');
-            }
+            $item['expired_at'] = is_null($request->input('expired_at')) ? self::MAX_DATE : $request->input('expired_at');
             
             $database = $this->repository->update($database, $item);
             $database->subjects()->sync($request->input('subjects'));

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Carbon\Carbon;
 use App\Models\Database;
 
 class DatabaseRepository extends Repository
@@ -77,6 +78,8 @@ class DatabaseRepository extends Repository
 
             $objects = $objects->whereIn('status', $status);
         }
+
+        $objects = $objects->where('expired_at', '>=', Carbon::now());
 
         return $objects->orderBy('top', 'desc')
             ->orderBy('order', 'desc')

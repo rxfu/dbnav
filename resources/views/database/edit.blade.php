@@ -312,9 +312,19 @@ $(function() {
     		time: 'far fa-clock',
     		date: 'far fa-calendar-alt',
     		up: 'fas fa-arrow-up',
-    		down: 'fas fa-arrow-down'
+    		down: 'fas fa-arrow-down',
+			previous: 'far fa-chevron-left',
+			next: 'far fa-chevron-right',
+			today: 'far fa-calendar-check-o',
+			clear: 'far fa-trash',
+			close: 'far fa-times'
 		},
-		format: 'L'
+		format: 'L',
+		buttons: {
+			showToday: true,
+            showClear: true,
+            showClose: true
+		}
 	});
 
 	// 汉字转换成拼音
