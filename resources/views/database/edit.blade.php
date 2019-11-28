@@ -72,7 +72,7 @@
 					<div class="form-group row">
 						<label for="content" class="col-sm-3 col-form-label">{{ __('database.content') }}</label>
 						<div class="col-md-9">
-							<textarea name="content" id="content" rows="10" class="form-control @error('content') is_invalid @enderror" placeholder="{{ __('content') }}">{{ str_replace('<br>', PHP_EOL, old('content', $item->content)) }}</textarea>
+							<textarea name="content" id="content" rows="10" class="form-control note @error('content') is_invalid @enderror" placeholder="{{ __('content') }}">{{ str_replace('<br>', PHP_EOL, old('content', $item->content)) }}</textarea>
 							@error('content')
 								<div class="invalid-feedback" role="alert">
 									<strong>{{ $message }}</strong>
@@ -142,6 +142,10 @@
 							<div class="form-check form-check-inline">
 								<input type="radio" name="status" id="opening" class="form-check-input @error('status') is_invalid @enderror" value="2" {{ 2 === $item->status ? 'checked' : ''}}>
 								<label class="form-check-label" for="opening">{{ __('Opening') }}</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input type="radio" name="status" id="self" class="form-check-input @error('status') is_invalid @enderror" value="3" {{ 3 === $item->status ? 'checked' : ''}}>
+								<label class="form-check-label" for="self">{{ __('Self') }}</label>
 							</div>
 							@error('status')
 								<div class="invalid-feedback" role="alert">
@@ -273,6 +277,8 @@
 @stop
 
 @push('styles')
+<!-- Summernote -->
+<link href="{{ asset('vendor/summernote/summernote.css') }}" rel="stylesheet">
 <!-- DateTimePicker -->
 <link href="{{ asset('vendor/datetimepicker/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet">
 <style>
@@ -286,6 +292,9 @@
 @endpush
 
 @push('scripts')
+<!-- Summernote -->
+<script src="{{ asset('vendor/summernote/summernote.min.js') }}"></script>
+<script src="{{ asset('vendor/summernote/lang/summernote-zh-CN.min.js') }}"></script>
 <!-- Convert Chinese to Pinyin -->
 <script src="{{ asset('js/pinyin.js') }}"></script>
 <!-- DateTimePicker -->
@@ -293,6 +302,10 @@
 <script src="{{ asset('vendor/datetimepicker/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <script>
 $(function() {
+    $('.note').summernote({
+        lang: 'zh-CN',
+        height: 400
+    });
     $('.datetimepicker').datetimepicker({
     	locale: 'zh-cn',
     	icons: {

@@ -78,8 +78,12 @@
                                     <label class="form-check-label" for="normal">{{ __('Normal') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="statuses[]" id="open" class="form-check-input" value="2" {{ !is_null($status) && in_array(2, $status) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="open">{{ __('Opening') }}</label>
+                                    <input type="checkbox" name="statuses[]" id="opening" class="form-check-input" value="2" {{ !is_null($status) && in_array(2, $status) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="opening">{{ __('Opening') }}</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" name="statuses[]" id="self" class="form-check-input" value="3" {{ !is_null($status) && in_array(3, $status) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="self">{{ __('Self') }}</label>
                                 </div>
                             </dd>
                         </dl>
@@ -100,7 +104,7 @@
                                     </td>
                                     <td>
                                         @empty($database->brief)
-                                            {{ \Illuminate\Support\Str::limit($database->content, 120) }}
+                                            {{ strip_tags(\Illuminate\Support\Str::limit($database->content, 120)) }}
                                         @else
                                             {{ $database->brief }}
                                         @endempty

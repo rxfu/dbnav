@@ -18,6 +18,9 @@ class DatabasePresenter extends Presenter
             case 2:
                 return __('Opening');
 
+            case 3:
+                return __('Self');
+
             default:
                 return __('Trial');
         }
